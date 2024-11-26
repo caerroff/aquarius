@@ -43,3 +43,4 @@ jobs:
         path: |
           build/bin
           assets/
+        retention-days: 5
