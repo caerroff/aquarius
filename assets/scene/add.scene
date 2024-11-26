@@ -1,0 +1,4 @@
+Scene: add
+Action: test 
+Time: 45354
+Type: Rectangle | X: 0 | Y: 0 | Color: ffffff | Centered: 1Width: 500 | Height: 500
