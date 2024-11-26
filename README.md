@@ -1,3 +1,5 @@
+[![CI](https://github.com/caerroff/aquarius/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/caerroff/aquarius/actions/workflows/ci.yml)
+
 # Aquarius-game
  A game about the Aquarius album from Haken.
 
