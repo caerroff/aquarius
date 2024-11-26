@@ -5,7 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "vector"
-#include "../Collidables/Character.hpp"
+#include "../Collidables/Player.hpp"
 #include "../Tile.cpp"
 #include "../TextBox.cpp"
 #include "../Map.cpp"
@@ -24,7 +24,7 @@ class GameplayManager
         static GameplayManager *singleton_;
         int currentMode;
         sf::Music music;
-        char* musicPath = "";
+        std::string musicPath;
         Map *map;
         TextBox* currentTextBox;
     
@@ -37,8 +37,8 @@ class GameplayManager
         GameplayManager(GameplayManager const &) = delete;
         void operator=(GameplayManager const &) = delete;
         void operator~() = delete;
-        void setMusicPath(char *_musicPath);
-        char* getMusicPath() { return this->musicPath; }
+        void setMusicPath(const char *_musicPath);
+        std::string getMusicPath() { return this->musicPath; }
         void playMusic();
         void stopMusic();
         void setModeGameplay();

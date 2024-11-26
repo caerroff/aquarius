@@ -25,7 +25,7 @@ class Map
         Map(sf::Vector2f _size);
         sf::Vector2f getSize(){return this->size;}
         void setSize(sf::Vector2f _size){this->size = _size;}
-        static Map* loadFromFile(char* _filePath);
+        static Map* loadFromFile(char* _filePath){return new Map();};
         Map* loadFromAllMaps(char* _mapName);
         void update(sf::RenderWindow* window);
         void addCharacter(Character * character);

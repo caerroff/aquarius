@@ -17,7 +17,7 @@ int main(void)
     window->setVerticalSyncEnabled(true);
 
     SceneManager::getSceneManager().setModeScene();
-    SceneManager::getSceneManager().loadScene("intro.scene", window);
+    SceneManager::getSceneManager().loadScene("opening.scene", window);
     while (window->isOpen())
     {
         sf::Event e;
@@ -46,6 +46,7 @@ int main(void)
         {
             fprintf(stderr, "Warning ! Thrown to GameplayMode because no mode was set\n");
             GameplayManager::getGameplayManager().setModeGameplay();
+            GameplayManager::getGameplayManager().update(window);
         }
         window->display();
     }
@@ -62,6 +63,7 @@ void handleKeys(sf::Keyboard::Key key, sf::RenderWindow* window)
         }else{
             window->setSize(sf::Vector2u(1280, 720));
         }
+        return;
     }
     if(key == sf::Keyboard::Space && SceneManager::getSceneManager().getCurrentMode() == SCENE_CODE)
     {

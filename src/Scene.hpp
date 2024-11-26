@@ -10,9 +10,9 @@
 class Scene
 {
 private:
-    char *name;
+    const char *name;
     sf::Music music;
-    char *musicPath;
+    const char *musicPath;
     std::vector<sf::Text *> sceneTexts;
     std::vector<sf::RectangleShape *> sceneRectangles;
     std::vector<Action *> sceneActions;
@@ -23,12 +23,12 @@ public:
     Scene();
     Scene(char *name, char *musicPath, int numberOfFrames);
     void setMusicPath(char *_musicPath);
-    char* getMusicPath() { return this->musicPath; }
-    void addText(char *text, int x, int y, int size, char *fontPath);
+    const char* getMusicPath() { return this->musicPath; }
+    void addText(const char *text, int x, int y, int size, const char *fontPath);
     std::vector<sf::Text *> getTexts() { return this->sceneTexts; }
     int getNbTexts() { return this->sceneTexts.size(); }
     sf::Text *getTextAt(int pos) { return this->sceneTexts.at(pos); }
-    void addTextCenter(sf::RenderWindow *window, char *_string, int size, char *fontPath);
+    void addTextCenter(sf::RenderWindow *window, const char *_string, int size, int r, int g, int b, const char *fontPath);
     void addRectangle(sf::RectangleShape *rectangle) { sceneRectangles.push_back(rectangle); }
     sf::RectangleShape *getRectangleAtPosition(int position) { return sceneRectangles.at(position); }
     int getNbRectangles() { return sceneRectangles.size(); }
@@ -38,7 +38,7 @@ public:
     void update(sf::RenderWindow *window);
     void changeOpacityText(int position, int opacity);
 
-    void loadFromFile(char *path, sf::RenderWindow* window);
+    void loadFromFile(const char *path, sf::RenderWindow* window);
 };
 
 #endif

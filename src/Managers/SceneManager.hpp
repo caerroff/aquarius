@@ -33,8 +33,17 @@ public:
     void stopModeScene();
     int getCurrentMode() { return currentMode; }
     void update(sf::RenderWindow *window);
-    void loadScene(char *path, sf::RenderWindow *window);
+
+    
+    void loadScene(const char *path, sf::RenderWindow *window);
     void createCurrentScene();
+    
+    /**
+     * Skips to the next scene.
+     * @param path the path to the scene file
+     * @param window the window to render the scene to
+     * @return `0` if there is a next scene, `-1` otherwise
+     */
     int switchNextScene();
 };
 

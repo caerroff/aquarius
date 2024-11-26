@@ -1,0 +1,13 @@
+Name: "Opening"
+Music: "thePointOfNoReturn.ogg"
+Time: 5000
+Texts: 
+  - Text: "Aquarius"
+    Red: 255
+    Green: 0
+    Blue: 0
+    Size: 70
+    Centered: true
+Inputs:
+  - Key: "Space"
+    Action: "skip"

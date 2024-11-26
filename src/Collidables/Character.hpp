@@ -22,12 +22,12 @@ public:
     Character(char *name);
     Character(char *name, char *spritePath);
     const char *getName() { return this->name; }
-    void setName(char *_name) { this->name = _name; }
+    void setName(const char *_name) { this->name = _name; }
     sf::Texture* getFaceSprite(){return this->faceSprite;}
     sf::Texture** getSprites(){return this->sprites;}
-    void setFaceSprite(char* _faceSpritePath);
-    void setSprites(char* _spritesPath);
-    void loadFromFile(char* _filePath);
+    void setFaceSprite(const char* _faceSpritePath);
+    void setSprites(const char* _spritesPath);
+    void loadFromFile(const char* _filePath);
     virtual void update(sf::RenderWindow* window);
     sf::RectangleShape* getBody();
     void setBody(sf::RectangleShape* body);

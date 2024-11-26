@@ -9,7 +9,7 @@ private:
     int isBeingPlayed;
 
 public:
-    Player(char *name, int _isBeingPlayed);
+    Player(const char *name, int _isBeingPlayed);
     int getIsBeingPlayed() { return this->isBeingPlayed; }
     void setIsBeingPlayer(int _isBeingPlayed) { this->isBeingPlayed = _isBeingPlayed; }
     using Character::update;

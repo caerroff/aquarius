@@ -1,6 +1,6 @@
 #include "Player.hpp"
 
-Player::Player(char *name, int _isBeingPlayed)
+Player::Player(const char *name, int _isBeingPlayed)
 {
     this->setName(name);
     this->isBeingPlayed = _isBeingPlayed;

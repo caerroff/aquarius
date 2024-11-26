@@ -1,5 +1,4 @@
 #include "Map.hpp"
-#include "utils/Json.cpp"
 
 
 Map::Map()
@@ -11,12 +10,6 @@ Map::Map()
 Map::Map(sf::Vector2f _size)
 {
     this->size = _size;
-}
-
-Map* Map::loadFromFile(char* _filePath)
-{
-    Map* map = loadJsonMap(_filePath);
-    return map;
 }
 
 void Map::update(sf::RenderWindow* window)

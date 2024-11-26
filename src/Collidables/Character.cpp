@@ -23,13 +23,13 @@ void Character::update(sf::RenderWindow* window)
     window->draw(*this->body);
 }
 
-void Character::setFaceSprite(char* _faceSpritePath)
+void Character::setFaceSprite(const char* _faceSpritePath)
 {
     this->faceSprite = new sf::Texture();
     this->faceSprite->loadFromFile(_faceSpritePath);
 }
 
-void Character::setSprites(char* _spritesPath)
+void Character::setSprites(const char* _spritesPath)
 {
     this->sprites = (sf::Texture**)calloc(6, sizeof(sf::Texture*));
     int posX = 0;

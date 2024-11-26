@@ -10,7 +10,10 @@ Scene::Scene(char *name, char *musicPath, int numberOfFrames)
 {
     this->name = name;
     this->musicPath = musicPath;
-    this->playMusic();
+    if (musicPath)
+    {
+        this->playMusic();
+    }
     this->numberOfFrames = numberOfFrames;
 }
 
@@ -35,7 +38,7 @@ void Scene::stopMusic()
     }
 }
 
-void Scene::addText(char *_string, int x, int y, int size, char *fontPath = "assets/font/PressStart2P-Regular.ttf")
+void Scene::addText(const char *_string, int x, int y, int size, const char *fontPath = "assets/font/PressStart2P-Regular.ttf")
 {
     sf::Text *text = new sf::Text();
     sf::Font font;
@@ -51,7 +54,7 @@ void Scene::addText(char *_string, int x, int y, int size, char *fontPath = "ass
     sceneTexts.push_back(text);
 }
 
-void Scene::addTextCenter(sf::RenderWindow *window, char *_string, int size, char *fontPath = "assets/font/PressStart2P-Regular.ttf")
+void Scene::addTextCenter(sf::RenderWindow *window, const char *_string, int size, int r = 0, int g = 0, int b = 0, const char *fontPath = "assets/font/PressStart2P-Regular.ttf")
 {
     sf::Text *text = new sf::Text();
     sf::Font *font = new sf::Font();
@@ -61,11 +64,11 @@ void Scene::addTextCenter(sf::RenderWindow *window, char *_string, int size, cha
     }
     else
     {
-        printf("Font couldn't be loaded\n");
+        fprintf(stderr, "Font at %s couldn't be loaded\n", fontPath);
     }
     text->setString(_string);
     text->setCharacterSize(size);
-    text->setFillColor(sf::Color::White);
+    text->setFillColor(sf::Color(r, g, b));
     text->setOutlineColor(sf::Color::Black);
     text->setOutlineThickness(1);
     text->setPosition(window->getSize().x / 2 - text->getGlobalBounds().width / 2, window->getSize().y / 2 - text->getGlobalBounds().height / 2);
@@ -89,7 +92,7 @@ void Scene::changeOpacityText(int position, int opacity)
     this->sceneTexts.at(position) = text;
 }
 
-void Scene::loadFromFile(char *path, sf::RenderWindow *window)
+void Scene::loadFromFile(const char *path, sf::RenderWindow *window)
 {
     char *name;
     std::vector<sf::Text *> texts;
@@ -97,7 +100,7 @@ void Scene::loadFromFile(char *path, sf::RenderWindow *window)
     char *musicPath;
     int numberOfFrames;
 
-    Scene* scene = new Scene();
+    Scene *scene = new Scene();
     std::ifstream file;
     file.open(DEFAULT_SCENE_PATH + std::string(path));
     if (file.is_open())
@@ -120,8 +123,8 @@ void Scene::loadFromFile(char *path, sf::RenderWindow *window)
             if (token == "Music")
             {
                 std::string musicPath = DEFAULT_MUSIC_PATH + line.substr(line.find(delimiter) + 1, line.length());
-                char * path = (char*)calloc(musicPath.length(), sizeof(char));
-                for(int i = 0; i < musicPath.length(); i++)
+                char *path = (char *)calloc(musicPath.length(), sizeof(char));
+                for (int i = 0; i < musicPath.length(); i++)
                 {
                     path[i] = musicPath[i];
                 }
@@ -130,24 +133,24 @@ void Scene::loadFromFile(char *path, sf::RenderWindow *window)
 
             if (token == "Text")
             {
-                //What's to retrieve in order:
-                // - Text
-                // - R
-                // - G
-                // - B
-                // - Is it centered
-                // - Position X
-                // - Position Y
-                // They are all separated by a | character
+                // What's to retrieve in order:
+                //  - Text
+                //  - R
+                //  - G
+                //  - B
+                //  - Is it centered
+                //  - Position X
+                //  - Position Y
+                //  They are all separated by a | character
                 std::string text = line.substr(line.find(delimiter) + 1, line.length());
                 std::string textString = text.substr(0, text.find(delimiter));
 
                 text = text.substr(text.find(delimiter) + 1, text.length());
-                std::string r = text.substr(0, text.find(delimiter));
+                int r = std::stoi(text.substr(0, text.find(delimiter)));
                 text = text.substr(text.find(delimiter) + 1, text.length());
-                std::string g = text.substr(0, text.find(delimiter));
+                int g = std::stoi(text.substr(0, text.find(delimiter)));
                 text = text.substr(text.find(delimiter) + 1, text.length());
-                std::string b = text.substr(0, text.find(delimiter));
+                int b = std::stoi(text.substr(0, text.find(delimiter)));
                 text = text.substr(text.find(delimiter) + 1, text.length());
                 std::string size = text.substr(0, text.find(delimiter));
                 text = text.substr(text.find(delimiter) + 1, text.length());
@@ -157,12 +160,12 @@ void Scene::loadFromFile(char *path, sf::RenderWindow *window)
                 {
                     sf::Vector2f position = sf::Vector2f(std::stoi(text.substr(0, text.find(delimiter))), std::stoi(text.substr(text.find(delimiter) + 1, text.length())));
                 }
-                this->addTextCenter(window, (char*)textString.c_str(), std::stoi(size));
+                this->addTextCenter(window, (char *)textString.c_str(), std::stoi(size), r, g, b);
             }
         }
     }
     else
     {
-        fprintf(stderr, "Couldn't open file\n");
+        fprintf(stderr, "Couldn't open file %s ! \n", path);
     }
 }

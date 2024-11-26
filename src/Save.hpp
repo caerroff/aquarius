@@ -9,7 +9,7 @@
 typedef struct
 {
     int time;       // saved in hex
-    char *name;     // saved in plain text
+    const char *name;     // saved in plain text
     Player *player; // every part of the player is saved in plain text
 } Save;
 

@@ -18,7 +18,7 @@ void SceneManager::update(sf::RenderWindow *window)
     }
 }
 
-void SceneManager::loadScene(char *path, sf::RenderWindow *window)
+void SceneManager::loadScene(const char *path, sf::RenderWindow *window)
 {
     currentScene = new Scene();
     currentScene->loadFromFile(path, window);

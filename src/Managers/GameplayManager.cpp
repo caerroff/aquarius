@@ -44,7 +44,7 @@ void GameplayManager::removeCharacterAt(int position)
     this->map->removeCharacterAt(position);
 }
 
-void GameplayManager::setMusicPath(char *_musicPath)
+void GameplayManager::setMusicPath(const char *_musicPath)
 {
     std::string path = std::string(DEFAULT_MUSIC_PATH) + std::string(_musicPath);
     this->musicPath = (char*)calloc(path.length(), sizeof(char));
