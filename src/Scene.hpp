@@ -3,7 +3,6 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <yaml-cpp/yaml.h>
-#include <fstream>
 #include "Action.cpp"
 #define DEFAULT_SCENE_PATH "assets/scene/"
 #define DEFAULT_MUSIC_PATH "assets/music/"
@@ -20,6 +19,7 @@ private:
     std::vector<Action *> sceneActions;
     long numberOfFrames;
     long currentFrame;
+    std::string nextScene;
 
 public:
     Scene();

@@ -129,7 +129,6 @@ void Scene::loadFromFile(std::string path, sf::RenderWindow *window)
   std::vector<sf::Text *> texts;
   std::vector<sf::RectangleShape *> rectangles;
   std::string musicPath;
-  int numberOfFrames;
 
   try
   {
@@ -177,11 +176,16 @@ void Scene::loadFromFile(std::string path, sf::RenderWindow *window)
         this->addText(text, x, y, size);
       }
     }
+
+    if(object["nextSceneFile"].IsDefined())
+    {
+      this->nextScene = object["nextSceneFile"].as<std::string>();
+    }
   }
   catch (YAML::BadFile e)
   {
     std::cerr << "Error while loading Scene: " << e.msg << std::endl;
-    std::cerr << "Line: " << e.mark.line << ":" << e.mark.column << std::endl;
+    std::cerr << e.what() << std::endl;
     return;
   }
   catch (YAML::Exception e)
