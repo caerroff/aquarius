@@ -77,7 +77,7 @@ void handleKeys(sf::Keyboard::Key key, sf::RenderWindow *window)
     }
     if (key == sf::Keyboard::Space && SceneManager::getSceneManager().getCurrentMode() == SCENE_CODE)
     {
-        if (!SceneManager::getSceneManager().switchNextScene() == 0)
+        if (SceneManager::getSceneManager().switchNextScene() != 0)
         {
             SceneManager::getSceneManager().stopModeScene();
             GameplayManager::getGameplayManager().setModeGameplay();

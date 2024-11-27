@@ -27,7 +27,7 @@ void Action::update(sf::RenderWindow* window, long currentTime)
         case Type::UNDEFINED:
             break;
         default:
-            fprintf(stderr, "Unknown Action type %s \n", type);
+            fprintf(stderr, "Unknown Action type %d \n", type);
             return;
     }
 }
