@@ -2,6 +2,7 @@
 
 import os
 import sys
+import yaml
 
 class Action:
     def __init__(self, name, time=0):
