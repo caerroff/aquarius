@@ -5,40 +5,30 @@
 #include <SFML/Audio.hpp>
 #include "Collidables/Player.cpp"
 #include "Save.cpp"
+#include <yaml-cpp/yaml.h>
 #include "Managers/SceneManager.cpp"
 #include "Managers/GameplayManager.cpp"
 
-void handleKeys(sf::Keyboard::Key key, sf::RenderWindow* window);
+void handleKeys(sf::Keyboard::Key key, sf::RenderWindow *window);
 
 int main(void)
 {
-    sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Aquarius", sf::Style::Titlebar | sf::Style::Close);
+    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Aquarius", sf::Style::Titlebar | sf::Style::Close);
     window->setFramerateLimit(60);
     window->setVerticalSyncEnabled(true);
 
     SceneManager::getSceneManager().setModeScene();
-    SceneManager::getSceneManager().loadScene("opening.scene", window);
+    SceneManager::getSceneManager().loadScene("opening.yaml", window);
     while (window->isOpen())
     {
         sf::Event e;
-        while (window->pollEvent(e))
-        {
-            if (e.type == sf::Event::Closed)
-            {
-                SceneManager::getSceneManager().stopModeScene();
-                window->close();
-            }
-            if (e.type == sf::Event::KeyPressed)
-            {
-                handleKeys(e.key.code, window);
-            }
-        }
+        
         window->clear(sf::Color::Black);
         if (SceneManager::getSceneManager().getCurrentMode() == SCENE_CODE)
         {
             SceneManager::getSceneManager().update(window);
         }
-        else if(GameplayManager::getGameplayManager().getCurrentMode() == GAMEPLAY_CODE)
+        else if (GameplayManager::getGameplayManager().getCurrentMode() == GAMEPLAY_CODE)
         {
             GameplayManager::getGameplayManager().update(window);
         }
@@ -49,25 +39,45 @@ int main(void)
             GameplayManager::getGameplayManager().update(window);
         }
         window->display();
+        while (window->pollEvent(e))
+        {
+            if (e.type == sf::Event::Closed)
+            {
+                SceneManager::getSceneManager().stopModeScene();
+                GameplayManager::getGameplayManager().stopModeGameplay();
+                window->close();
+                break;
+            }
+            if (e.type == sf::Event::KeyPressed)
+            {
+                handleKeys(e.key.code, window);
+            }
+        }
     }
     return 0;
 }
 
-void handleKeys(sf::Keyboard::Key key, sf::RenderWindow* window)
+void handleKeys(sf::Keyboard::Key key, sf::RenderWindow *window)
 {
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::R)){
-        if(window->getSize().x == 1280){
-            window->setSize(sf::Vector2u(1920,1080));
-        }else if(window->getSize().x == 1920){
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+    {
+        if (window->getSize().x == 1280)
+        {
+            window->setSize(sf::Vector2u(1920, 1080));
+        }
+        else if (window->getSize().x == 1920)
+        {
             window->setSize(sf::Vector2u(2400, 1350));
-        }else{
+        }
+        else
+        {
             window->setSize(sf::Vector2u(1280, 720));
         }
         return;
     }
-    if(key == sf::Keyboard::Space && SceneManager::getSceneManager().getCurrentMode() == SCENE_CODE)
+    if (key == sf::Keyboard::Space && SceneManager::getSceneManager().getCurrentMode() == SCENE_CODE)
     {
-        if(!SceneManager::getSceneManager().switchNextScene() == 0)
+        if (!SceneManager::getSceneManager().switchNextScene() == 0)
         {
             SceneManager::getSceneManager().stopModeScene();
             GameplayManager::getGameplayManager().setModeGameplay();

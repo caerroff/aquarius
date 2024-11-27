@@ -1,0 +1,18 @@
+Name: "example",
+Music: "MusicPath",
+Background: [0,0,0],
+Characters:
+  - Name: "name"
+    XCoords: 0
+    YCoords: 0
+Tiles:
+  - Tile:
+    - xCoords: 0
+      yCoords: 0
+      zCoords: 0
+      height: 100
+      width: 100 
+      texturePositionX: 50 
+      texturePositionY: 50
+
+NextMapFile: "nameOfNextMap.yaml"

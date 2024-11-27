@@ -24,4 +24,6 @@ The code should end up being open source, either the whole game or just the engi
 Managers are glorified singletons. They can only be instantiated once, and will manage everything about a Scene or a Gamescene, from player, to maps, to actions, to what the next scene or map should be.
 
 ### The global assets (Maps, Characters etc...)
-They are just json formated objects. I have coded a very unsafe json loader that can only read the Jsons made for this game, it will probably not be helpful for any other project.
+They are just yaml files.
+I use the library [YAML-cpp](https://github.com/jbeder/yaml-cpp).
+The parser allows me to read the objects and render the appropriate assets in the game.

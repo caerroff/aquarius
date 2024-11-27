@@ -3,6 +3,7 @@
 
 void SceneManager::update(sf::RenderWindow *window)
 {
+    window->clear(this->currentScene->getBgColor());
     for (int i = 0; i < currentScene->getNbTexts(); i++)
     {
         window->draw(*currentScene->getTextAt(i));
