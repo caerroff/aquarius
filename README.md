@@ -25,5 +25,5 @@ Managers are glorified singletons. They can only be instantiated once, and will 
 
 ### The global assets (Maps, Characters etc...)
 They are just yaml files.
-I use the library [![YAML-cpp](https://github.com/jbeder/yaml-cpp)].
+I use the library [YAML-cpp](https://github.com/jbeder/yaml-cpp).
 The parser allows me to read the objects and render the appropriate assets in the game.
