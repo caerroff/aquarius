@@ -1,13 +1,28 @@
 Name: "Opening"
 Music: "thePointOfNoReturn.ogg"
 Time: 5000
+Background: [30,10,10]
 Texts: 
   - Text: "Aquarius"
     Red: 255
-    Green: 0
-    Blue: 0
+    Green: 255
+    Blue: 255
     Size: 70
     Centered: true
+  - Text: "Press Space to start"
+    Red: 255
+    Green: 255
+    Blue: 255
+    Size: 20
+    Centered: true
+    YCoords: 450
+  - Text: "Caerroff - 2024"
+    Red: 225
+    Green: 225
+    Blue: 225
+    Size: 12
+    Centered: true
+    YCoords: 500
 Inputs:
   - Key: "Space"
     Action: "skip"
