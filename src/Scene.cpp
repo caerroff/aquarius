@@ -181,6 +181,19 @@ void Scene::loadFromFile(std::string path, sf::RenderWindow *window)
     {
       this->nextScene = object["nextSceneFile"].as<std::string>();
     }
+
+    if(object["nextMapFile"].IsDefined())
+    {
+      this->nextMap = object["nextMapFile"].as<std::string>();
+    }
+
+    if(object["Dialogues"].IsDefined())
+    {
+      for(int8_t i = 0; i < object["Dialogues"].size(); i++)
+      {
+        this->dialogues.push_back(loadDialogueFromNode(object["Dialogues"][i]));
+      }
+    }
   }
   catch (YAML::BadFile e)
   {

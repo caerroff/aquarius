@@ -23,6 +23,11 @@ Texts:
     Size: 12
     Centered: true
     YCoords: 500
+Dialogues:
+  - Content: "Oh..."
+    Author: "Man"
 Inputs:
   - Key: "Space"
     Action: "skip"
+
+nextSceneFile: intro.yaml

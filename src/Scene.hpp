@@ -3,6 +3,9 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <yaml-cpp/yaml.h>
+#include <iostream>
+#include "../UI/Dialogue.hpp"
+#include "../UI/Functions.hpp"
 #include "Action.cpp"
 #define DEFAULT_SCENE_PATH "assets/scene/"
 #define DEFAULT_MUSIC_PATH "assets/music/"
@@ -17,9 +20,11 @@ private:
     std::vector<sf::Text *> sceneTexts;
     std::vector<sf::RectangleShape *> sceneRectangles;
     std::vector<Action *> sceneActions;
+    std::vector<Dialogue *> dialogues;
     long numberOfFrames;
     long currentFrame;
     std::string nextScene;
+    std::string nextMap;
 
 public:
     Scene();
@@ -46,6 +51,9 @@ public:
     void changeOpacityText(int position, int opacity);
 
     void loadFromFile(std::string path, sf::RenderWindow* window);
+
+    std::string getNextSceneName() { return this->nextScene; }
+    std::string getNextMapName() { return this->nextMap; }
 };
 
 #endif

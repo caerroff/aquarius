@@ -19,8 +19,9 @@ void SceneManager::update(sf::RenderWindow *window)
     }
 }
 
-void SceneManager::loadScene(const char *path, sf::RenderWindow *window)
+void SceneManager::loadScene(std::string path, sf::RenderWindow *window)
 {
+    this->window = window;
     currentScene = new Scene();
     currentScene->loadFromFile(path, window);
     currentScene->playMusic();
@@ -39,11 +40,12 @@ void SceneManager::createCurrentScene()
 
 int SceneManager::switchNextScene()
 {
-    if(!nextScene)
+    this->getCurrentScene()->stopMusic();
+    if(!currentScene->getNextSceneName().length() && !currentScene->getNextMapName().length())
     {
         return -1;
     }
-    this->currentScene = nextScene;
-    this->nextScene = NULL;
+    std::cout << "Scene name: " << currentScene->getNextSceneName() << std::endl;
+    this->loadScene(currentScene->getNextSceneName(), this->window);
     return 0;
 }

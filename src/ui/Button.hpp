@@ -10,7 +10,7 @@ class Button
     sf::Color *outlineColor;
     
   public:
-    Button(std::string text, sf::Vector2u position, int size, std::string font);
+    Button(std::string text, sf::Vector2f position, int margin, int size, std::string font);
     void setOutlineColor(int r, int g, int b);
 };
 

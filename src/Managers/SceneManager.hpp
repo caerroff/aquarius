@@ -20,7 +20,7 @@ public:
 private:
     SceneManager() {}
     Scene *currentScene;
-    Scene *nextScene;
+    sf::RenderWindow *window = (sf::RenderWindow *)malloc(sizeof(sf::RenderWindow));
 
 protected:
     static SceneManager *singleton_;
@@ -35,7 +35,7 @@ public:
     void update(sf::RenderWindow *window);
 
     
-    void loadScene(const char *path, sf::RenderWindow *window);
+    void loadScene(std::string path, sf::RenderWindow *window);
     void createCurrentScene();
     
     /**

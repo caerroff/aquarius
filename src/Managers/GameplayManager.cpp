@@ -36,7 +36,7 @@ void GameplayManager::addCharacter()
 
 void GameplayManager::addTile(Tile* tile)
 {
-    this->addTile(tile);
+    ;
 }
 
 void GameplayManager::removeCharacterAt(int position)
