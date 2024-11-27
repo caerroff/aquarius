@@ -94,7 +94,7 @@ void Scene::addTextCenterWithY(sf::RenderWindow *window, std::string _string, in
   }
   else
   {
-    fprintf(stderr, "Font at %s couldn't be loaded\n", fontPath);
+    std::cerr << "Font at " << fontPath << " could not be loaded" << std::endl;
   }
   text->setString(_string);
   text->setCharacterSize(size);
