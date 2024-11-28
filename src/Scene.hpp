@@ -4,8 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <yaml-cpp/yaml.h>
 #include <iostream>
-#include "../UI/Dialogue.hpp"
-#include "../UI/Functions.hpp"
+#include "UI/Dialogue.hpp"
 #include "Action.cpp"
 #define DEFAULT_SCENE_PATH "assets/scene/"
 #define DEFAULT_MUSIC_PATH "assets/music/"
