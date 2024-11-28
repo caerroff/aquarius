@@ -53,6 +53,8 @@ public:
 
   std::string getNextSceneName() { return this->nextScene; }
   std::string getNextMapName() { return this->nextMap; }
+
+  std::vector<Dialogue *> getDialogues() { return this->dialogues ;}
 };
 
 /**

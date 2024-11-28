@@ -30,6 +30,8 @@ public:
    * @param author The author of the Dialogue
    */
   Dialogue(std::string content, std::string author);
+
+  void draw(sf::RenderWindow* window);
 };
 
 #endif

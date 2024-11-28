@@ -12,6 +12,10 @@ void SceneManager::update(sf::RenderWindow *window)
     {
         window->draw(*currentScene->getRectangleAtPosition(i));
     }
+    for (int i = 0; i < currentScene->getDialogues().size(); i++)
+    {
+        currentScene->getDialogues().at(i)->draw(window);
+    }
 
     if(this->getCurrentScene()->getMusic()->getStatus() == sf::SoundSource::Stopped)
     {
