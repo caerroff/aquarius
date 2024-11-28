@@ -207,3 +207,20 @@ void Scene::loadFromFile(std::string path, sf::RenderWindow *window)
     std::cerr << e.what() << std::endl;
   }
 }
+
+
+Dialogue *loadDialogueFromNode(YAML::Node node)
+{
+  std::string content = node["content"].as<std::string>();
+  Dialogue *dialogue = (Dialogue *)malloc(sizeof(Dialogue));
+  if (node["author"].IsDefined() && !node["author"].IsNull())
+  {
+    std::string author = node["author"].as<std::string>();
+    dialogue = new Dialogue(content, author);
+  }
+  else
+  {
+    dialogue = new Dialogue(content);
+  }
+  return dialogue;
+}
