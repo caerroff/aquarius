@@ -3,11 +3,10 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include "Collidables/Player.cpp"
-#include "Save.cpp"
+#include "Collidables/include/Collidables.hpp"
+#include "Save.hpp"
 #include <yaml-cpp/yaml.h>
-#include "Managers/SceneManager.cpp"
-#include "Managers/GameplayManager.cpp"
+#include "Managers/include/Managers.hpp"
 
 void handleKeys(sf::Keyboard::Key key, sf::RenderWindow *window);
 

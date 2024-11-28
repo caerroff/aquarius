@@ -1,4 +1,4 @@
-#include "GameplayManager.hpp"
+#include "../include/GameplayManager.hpp"
 #include <stdlib.h>
 
 void GameplayManager::setModeGameplay()
@@ -89,7 +89,6 @@ void GameplayManager::characterTextBox(int characterIndex, char* text)
     textObj->setString(text);
     textObj->setCharacterSize(24);
 
-    this->currentTextBox = new TextBox(faceSprite, textBox, textObj);
 }
 
 int GameplayManager::switchNextMap()

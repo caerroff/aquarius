@@ -1,4 +1,4 @@
-#include "Button.hpp"
+#include "../include/Button.hpp"
 
 Button::Button(std::string _text, sf::Vector2f position, int margin, int size, std::string _font = "assets/font/PressStart2P-Regular.ttf")
 {

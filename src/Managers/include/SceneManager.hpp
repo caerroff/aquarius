@@ -2,7 +2,7 @@
 #define SCENEMANAGER
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include "../Scene.cpp"
+#include "../Scene.hpp"
 #define SCENE_CODE 1
 #define OFF_CODE 2
 

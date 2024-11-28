@@ -1,4 +1,4 @@
-#include "SceneManager.hpp"
+#include "../include/SceneManager.hpp"
 
 
 void SceneManager::update(sf::RenderWindow *window)

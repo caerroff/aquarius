@@ -1,4 +1,4 @@
-#include "Dialogue.hpp"
+#include "../include/Dialogue.hpp"
 
 Dialogue::Dialogue()
 {
@@ -40,7 +40,7 @@ Dialogue::Dialogue(std::string _content, std::string _author)
   this->content = new sf::Text();
   this->author = new sf::Text();
   content->setString(_content);
-  author->setString(author);
+  author->setString(_author);
   content->setFont(*font);
   author->setFont(*font);
   this->dialogueBox = this->_createDialogueBox();
