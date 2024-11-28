@@ -19,8 +19,11 @@ FetchContent_Declare(yaml-cpp
 )
 FetchContent_MakeAvailable(yaml-cpp)
 
-add_library(ui src/Button.cpp)
-add_library(ui src/Dialogue.cpp)
+add_library(ui STATIC
+  src/Button.cpp
+  src/Dialogue.cpp
+)
+
 target_link_libraries(ui PUBLIC yaml-cpp::yaml-cpp)
 target_link_libraries(ui PRIVATE sfml-graphics)
 target_link_libraries(ui PRIVATE sfml-audio)

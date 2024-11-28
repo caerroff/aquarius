@@ -1,5 +1,4 @@
 #include "../include/GameplayManager.hpp"
-#include <stdlib.h>
 
 void GameplayManager::setModeGameplay()
 {

@@ -4,9 +4,10 @@
 #define OFF_CODE 2
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include "vector"
+#include <stdlib.h>
+#include <vector>
 #include "../../Collidables/include/Collidables.hpp"
-#include "../../Map.hpp"
+#include "Map.hpp"
 #define DEFAULT_MUSIC_PATH "assets/music/"
 #define DEFAULT_SPRITE_PATH "assets/sprites/"
 #define DEFAULT_FONT_PATH "assets/fonts/PressStart2P-Regular.ttf"

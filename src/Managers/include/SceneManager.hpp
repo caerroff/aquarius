@@ -2,11 +2,9 @@
 #define SCENEMANAGER
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include "../Scene.hpp"
+#include "Scene.hpp"
 #define SCENE_CODE 1
 #define OFF_CODE 2
-
-int currentMode;
 
 class SceneManager
 {
@@ -21,6 +19,8 @@ private:
     SceneManager() {}
     Scene *currentScene;
     sf::RenderWindow *window = (sf::RenderWindow *)malloc(sizeof(sf::RenderWindow));
+    int currentMode;
+
 
 protected:
     static SceneManager *singleton_;

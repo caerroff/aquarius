@@ -19,22 +19,23 @@ FetchContent_Declare(yaml-cpp
 )
 FetchContent_MakeAvailable(yaml-cpp)
 
-include_directories(src/Collidables)
-
-include_directories(src/Managers)
-
-include_directories(src/UI)
-
 
 add_executable(aquarius src/main.cpp)
+
+add_subdirectory(src/Collidables)
+add_subdirectory(src/Managers)
+add_subdirectory(src/UI)
+
+
+target_include_directories(aquarius PUBLIC src/Collidables)
+target_include_directories(aquarius PUBLIC src/Managers)
+target_include_directories(aquarius PUBLIC src/UI)
+
 target_link_libraries(aquarius PUBLIC yaml-cpp::yaml-cpp)
 target_link_libraries(aquarius PRIVATE sfml-graphics)
 target_link_libraries(aquarius PRIVATE sfml-audio)
-target_include_directories(aquarius PUBLIC src/Collidables)
 target_link_libraries(aquarius PUBLIC collidables)
-target_include_directories(aquarius PUBLIC src/Managers)
 target_link_libraries(aquarius PUBLIC managers)
-target_include_directories(aquarius PUBLIC src/UI)
 target_link_libraries(aquarius PUBLIC ui)
 target_compile_features(aquarius PRIVATE cxx_std_17)
 
