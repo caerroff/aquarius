@@ -1,14 +1,18 @@
 #ifndef DIALOGUE
 #define DIALOGUE
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <yaml-cpp/yaml.h>
 #include <string>
+#include <chrono>
 
 class Dialogue
 {
 private:
   sf::RectangleShape *dialogueBox;
-  sf::Text *content;
+  sf::Text *drawnContent;
+  std::string content;
+  sf::Music *music = new sf::Music();
   sf::Text *author;
   sf::RectangleShape *_createDialogueBox();
 
@@ -31,7 +35,10 @@ public:
    */
   Dialogue(std::string content, std::string author);
 
-  void draw(sf::RenderWindow* window);
+  Dialogue(std::string content, std::string author, std::string soundPath);
+
+  int draw(sf::RenderWindow* window, sf::Clock *clock);
+  int drawEntirely(sf::RenderWindow* window);
 };
 
 #endif

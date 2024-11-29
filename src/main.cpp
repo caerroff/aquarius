@@ -18,9 +18,7 @@ int main(void)
     SceneManager::getSceneManager().setModeScene();
     SceneManager::getSceneManager().loadScene("opening.yaml", window);
     while (window->isOpen())
-    {
-        sf::Event e;
-        
+    {        
         window->clear(sf::Color::Black);
         if (SceneManager::getSceneManager().getCurrentMode() == SCENE_CODE)
         {
@@ -37,20 +35,6 @@ int main(void)
             GameplayManager::getGameplayManager().update(window);
         }
         window->display();
-        while (window->pollEvent(e))
-        {
-            if (e.type == sf::Event::Closed)
-            {
-                SceneManager::getSceneManager().stopModeScene();
-                GameplayManager::getGameplayManager().stopModeGameplay();
-                window->close();
-                break;
-            }
-            if (e.type == sf::Event::KeyPressed)
-            {
-                handleKeys(e.key.code, window);
-            }
-        }
     }
     return 0;
 }
@@ -72,14 +56,5 @@ void handleKeys(sf::Keyboard::Key key, sf::RenderWindow *window)
             window->setSize(sf::Vector2u(1280, 720));
         }
         return;
-    }
-    if (key == sf::Keyboard::Space && SceneManager::getSceneManager().getCurrentMode() == SCENE_CODE)
-    {
-        if (SceneManager::getSceneManager().switchNextScene() != 0)
-        {
-            SceneManager::getSceneManager().stopModeScene();
-            GameplayManager::getGameplayManager().setModeGameplay();
-            GameplayManager::getGameplayManager().loadDefaultMap();
-        }
     }
 }

@@ -8,6 +8,7 @@
 #include "Action.hpp"
 #define DEFAULT_SCENE_PATH "assets/scene/"
 #define DEFAULT_MUSIC_PATH "assets/music/"
+#define DEFAULT_SOUND_PATH "assets/sound/"
 
 class Scene
 {

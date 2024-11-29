@@ -3,6 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Scene.hpp"
+#include <SFML/Main.hpp>
+#include <chrono>
 #define SCENE_CODE 1
 #define OFF_CODE 2
 
@@ -20,7 +22,9 @@ private:
     Scene *currentScene;
     sf::RenderWindow *window = (sf::RenderWindow *)malloc(sizeof(sf::RenderWindow));
     int currentMode;
-
+    sf::Clock clock;
+    int currentDialogue = 0;
+    bool readyForNextDialogue = false;
 
 protected:
     static SceneManager *singleton_;

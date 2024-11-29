@@ -213,10 +213,18 @@ Dialogue *loadDialogueFromNode(YAML::Node node)
 {
   std::string content = node["Content"].as<std::string>();
   Dialogue *dialogue = (Dialogue *)malloc(sizeof(Dialogue));
-  if (node["author"].IsDefined() && !node["author"].IsNull())
+  if (node["Author"].IsDefined() && !node["Author"].IsNull())
   {
     std::string author = node["Author"].as<std::string>();
-    dialogue = new Dialogue(content, author);
+    if (node["Sound"].IsDefined() && !node["Sound"].IsNull())
+    {
+      std::string sound = node["Sound"].as<std::string>();
+      dialogue = new Dialogue(content, author, DEFAULT_SOUND_PATH + sound);
+    }
+    else
+    {
+      dialogue = new Dialogue(content, author);
+    }
   }
   else
   {
