@@ -4,9 +4,10 @@ Scene::Scene()
 {
   this->name = "";
   this->musicPath = "";
+  this->music = new sf::Music();
 }
 
-Scene::Scene(std::string name, std::string musicPath, int numberOfFrames)
+Scene::Scene(std::string name, std::string musicPath, int numberOfFrames) : Scene()
 {
   this->name = name;
   this->musicPath = DEFAULT_MUSIC_PATH + musicPath;
@@ -19,10 +20,10 @@ Scene::Scene(std::string name, std::string musicPath, int numberOfFrames)
 
 void Scene::playMusic()
 {
-  if (this->music.openFromFile(this->musicPath))
+  if (this->music->openFromFile(this->musicPath))
   {
-    this->music.setVolume(40);
-    this->music.play();
+    this->music->setVolume(40);
+    this->music->play();
   }
   else
   {
@@ -37,8 +38,8 @@ void Scene::setMusicPath(std::string _musicPath)
 
 void Scene::stopMusic()
 {
-  this->music.stop();
-  while (this->music.getStatus() != sf::SoundSource::Stopped)
+  this->music->stop();
+  while (this->music->getStatus() != sf::SoundSource::Stopped)
   {
     ; // Wait for music to stop
   }
@@ -133,8 +134,16 @@ void Scene::loadFromFile(std::string path, sf::RenderWindow *window)
   try
   {
     YAML::Node object = YAML::LoadFile(DEFAULT_SCENE_PATH + path);
-    musicPath = object["Music"].as<std::string>();
-    this->setMusicPath(musicPath);
+    if(object["Music"].IsDefined())
+    {
+      musicPath = object["Music"].as<std::string>();
+      this->setMusicPath(musicPath);
+    }
+
+    if(object["stopMusic"].IsDefined())
+    {
+      this->isStopMusic = object["stopMusic"].as<bool>();
+    }
 
     if (object["Background"].IsSequence() && object["Background"].size() == 3)
     {
@@ -231,4 +240,23 @@ Dialogue *loadDialogueFromNode(YAML::Node node)
     dialogue = new Dialogue(content);
   }
   return dialogue;
+}
+
+void Scene::destroy()
+{
+  if(this->isStopMusic){
+  free(this->music);
+  }
+  for(auto text : this->sceneTexts)
+  {
+    free(text);
+  }
+  for(auto rectangle : this->sceneRectangles)
+  {
+    free(rectangle);
+  }
+  for(auto dialogue : this->dialogues)
+  {
+    free(dialogue);
+  }
 }

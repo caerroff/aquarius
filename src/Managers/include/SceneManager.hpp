@@ -25,6 +25,7 @@ private:
     sf::Clock clock;
     int currentDialogue = 0;
     bool readyForNextDialogue = false;
+    sf::Music *globalMusic;
 
 protected:
     static SceneManager *singleton_;

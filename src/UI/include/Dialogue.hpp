@@ -37,6 +37,8 @@ public:
 
   Dialogue(std::string content, std::string author, std::string soundPath);
 
+  std::string getAuthor() {return this->author->getString();}
+
   int draw(sf::RenderWindow* window, sf::Clock *clock);
   int drawEntirely(sf::RenderWindow* window);
 };

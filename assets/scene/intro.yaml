@@ -1,9 +1,7 @@
-Name: ""
+Name: "Intro"
 Music: "aChildIsBornTonight.ogg"
 Background: [0,0,0]
-Inputs:
-  - Key: "Space"
-    Action: "skip"
+stopMusic: false
 Dialogues:
   - Content: "Push a little more! \nI can see the head! \nWe are almost there darling..."
     Author: "Man"
@@ -20,4 +18,4 @@ Dialogues:
   - Content: "*Heavy crying* \nWaaaaah... Waaaaah..."
     Author: "Baby"
     Sound: "SND_TXT1.wav"
-nextSceneFile: intro.yaml
+nextSceneFile: intro2.yaml

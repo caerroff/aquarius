@@ -30,6 +30,7 @@ int main(void)
         }
         else
         {
+            std::cout << SceneManager::getSceneManager().getCurrentMode() << std::endl;
             fprintf(stderr, "Warning ! Thrown to GameplayMode because no mode was set\n");
             GameplayManager::getGameplayManager().setModeGameplay();
             GameplayManager::getGameplayManager().update(window);

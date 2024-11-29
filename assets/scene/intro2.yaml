@@ -1,0 +1,17 @@
+Name: "Intro 2"
+Background: [0,0,0]
+stopMusic: false
+Dialogues:
+  - Content: "Oh god..."
+    Author: "Man"
+    Sound: "snd_txtasg.wav"
+  - Content: "What is wrong?"
+    Author: "Woman"
+    Sound: "snd_txtasr.wav"
+  - Content: "This is not a child..."
+    Author: "Man"
+    Sound: "snd_txtasg.wav"
+  - Content: "What do you mean ...?"
+    Author: "Woman"
+    Sound: "snd_txtasr.wav"
+nextSceneFile: intro2.yaml
