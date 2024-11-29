@@ -1,4 +1,4 @@
-#include "Scene.hpp"
+#include "../include/Scene.hpp"
 
 Scene::Scene()
 {
@@ -94,7 +94,7 @@ void Scene::addTextCenterWithY(sf::RenderWindow *window, std::string _string, in
   }
   else
   {
-    fprintf(stderr, "Font at %s couldn't be loaded\n", fontPath);
+    std::cerr << "Font at " << fontPath << " could not be loaded" << std::endl;
   }
   text->setString(_string);
   text->setCharacterSize(size);
@@ -129,7 +129,6 @@ void Scene::loadFromFile(std::string path, sf::RenderWindow *window)
   std::vector<sf::Text *> texts;
   std::vector<sf::RectangleShape *> rectangles;
   std::string musicPath;
-  int numberOfFrames;
 
   try
   {
@@ -177,11 +176,29 @@ void Scene::loadFromFile(std::string path, sf::RenderWindow *window)
         this->addText(text, x, y, size);
       }
     }
+
+    if(object["nextSceneFile"].IsDefined())
+    {
+      this->nextScene = object["nextSceneFile"].as<std::string>();
+    }
+
+    if(object["nextMapFile"].IsDefined())
+    {
+      this->nextMap = object["nextMapFile"].as<std::string>();
+    }
+
+    if(object["Dialogues"].IsDefined())
+    {
+      for(int8_t i = 0; i < object["Dialogues"].size(); i++)
+      {
+        this->dialogues.push_back(loadDialogueFromNode(object["Dialogues"][i]));
+      }
+    }
   }
   catch (YAML::BadFile e)
   {
     std::cerr << "Error while loading Scene: " << e.msg << std::endl;
-    std::cerr << "Line: " << e.mark.line << ":" << e.mark.column << std::endl;
+    std::cerr << e.what() << std::endl;
     return;
   }
   catch (YAML::Exception e)
@@ -189,4 +206,29 @@ void Scene::loadFromFile(std::string path, sf::RenderWindow *window)
     std::cerr << "Error: " << e.msg << std::endl;
     std::cerr << e.what() << std::endl;
   }
+}
+
+
+Dialogue *loadDialogueFromNode(YAML::Node node)
+{
+  std::string content = node["Content"].as<std::string>();
+  Dialogue *dialogue = (Dialogue *)malloc(sizeof(Dialogue));
+  if (node["Author"].IsDefined() && !node["Author"].IsNull())
+  {
+    std::string author = node["Author"].as<std::string>();
+    if (node["Sound"].IsDefined() && !node["Sound"].IsNull())
+    {
+      std::string sound = node["Sound"].as<std::string>();
+      dialogue = new Dialogue(content, author, DEFAULT_SOUND_PATH + sound);
+    }
+    else
+    {
+      dialogue = new Dialogue(content, author);
+    }
+  }
+  else
+  {
+    dialogue = new Dialogue(content);
+  }
+  return dialogue;
 }

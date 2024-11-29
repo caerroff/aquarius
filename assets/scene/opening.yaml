@@ -26,3 +26,5 @@ Texts:
 Inputs:
   - Key: "Space"
     Action: "skip"
+
+nextSceneFile: intro.yaml

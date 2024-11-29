@@ -1,9 +1,10 @@
 #ifndef MAP
 #define MAP
 #include <SFML/Graphics.hpp>
-#include "Collidables/Character.hpp"
-#include "Tile.hpp"
+#include "../../UI/include/UI.hpp"
+#include "../../Collidables/include/Collidables.hpp"
 #include "Scene.hpp"
+#include "Tile.hpp"
 #include <vector>
 #include <iostream>
 #include <fstream>

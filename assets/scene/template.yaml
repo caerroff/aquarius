@@ -1,0 +1,30 @@
+Name: ""
+Music: ""
+Background: [255,255,255]
+Texts: 
+  - Text: ""
+    Red: 255
+    Green: 255
+    Blue: 255
+    Size: 70
+    Centered: true
+  - Text: ""
+    Red: 255
+    Green: 255
+    Blue: 255
+    Size: 70
+    Centered: true
+    yCoords: 100
+  - Text: ""
+    Red: 255
+    Green: 255
+    Blue: 255
+    Size: 70
+    Centered: false
+    yCoords: 100
+    xCoords: 100
+Inputs:
+  - Key: "Space"
+    Action: "skip"
+
+nextSceneFile: intro.yaml

@@ -1,6 +1,6 @@
 #ifndef PLAYER
 #define PLAYER
-#include "Character.cpp"
+#include "Character.hpp"
 
 
 class Player : public Character

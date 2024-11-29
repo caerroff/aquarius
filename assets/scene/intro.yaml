@@ -1,0 +1,23 @@
+Name: ""
+Music: "aChildIsBornTonight.ogg"
+Background: [0,0,0]
+Inputs:
+  - Key: "Space"
+    Action: "skip"
+Dialogues:
+  - Content: "Push a little more! \nI can see the head! \nWe are almost there darling..."
+    Author: "Man"
+    Sound: "snd_txtasg.wav"
+  - Content: "*Grunting*"
+    Author: "Woman"
+    Sound: "snd_txtasr.wav"
+  - Content: "It's here! \nI see it! \nCome on just a little more..."
+    Author: "Man"
+    Sound: "snd_txtasg.wav"
+  - Content: "I can't feel my legs anymore..."
+    Author: "Woman"
+    Sound: "snd_txtasr.wav"
+  - Content: "*Heavy crying* \nWaaaaah... Waaaaah..."
+    Author: "Baby"
+    Sound: "SND_TXT1.wav"
+nextSceneFile: intro.yaml
