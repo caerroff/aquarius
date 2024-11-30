@@ -134,13 +134,13 @@ void Scene::loadFromFile(std::string path, sf::RenderWindow *window)
   try
   {
     YAML::Node object = YAML::LoadFile(DEFAULT_SCENE_PATH + path);
-    if(object["Music"].IsDefined())
+    if (object["Music"].IsDefined())
     {
       musicPath = object["Music"].as<std::string>();
       this->setMusicPath(musicPath);
     }
 
-    if(object["stopMusic"].IsDefined())
+    if (object["stopMusic"].IsDefined())
     {
       this->isStopMusic = object["stopMusic"].as<bool>();
     }
@@ -186,19 +186,19 @@ void Scene::loadFromFile(std::string path, sf::RenderWindow *window)
       }
     }
 
-    if(object["nextSceneFile"].IsDefined())
+    if (object["nextSceneFile"].IsDefined())
     {
       this->nextScene = object["nextSceneFile"].as<std::string>();
     }
 
-    if(object["nextMapFile"].IsDefined())
+    if (object["nextMapFile"].IsDefined())
     {
       this->nextMap = object["nextMapFile"].as<std::string>();
     }
 
-    if(object["Dialogues"].IsDefined())
+    if (object["Dialogues"].IsDefined())
     {
-      for(int8_t i = 0; i < object["Dialogues"].size(); i++)
+      for (int8_t i = 0; i < object["Dialogues"].size(); i++)
       {
         this->dialogues.push_back(loadDialogueFromNode(object["Dialogues"][i]));
       }
@@ -216,7 +216,6 @@ void Scene::loadFromFile(std::string path, sf::RenderWindow *window)
     std::cerr << e.what() << std::endl;
   }
 }
-
 
 Dialogue *loadDialogueFromNode(YAML::Node node)
 {
@@ -237,25 +236,39 @@ Dialogue *loadDialogueFromNode(YAML::Node node)
   }
   else
   {
-    dialogue = new Dialogue(content);
+    if (node["Sound"].IsDefined())
+    {
+      std::string sound = node["Sound"].as<std::string>();
+      dialogue = new Dialogue(content, "", DEFAULT_SOUND_PATH + sound);
+    }
+    else
+    {
+      dialogue = new Dialogue(content);
+    }
+  }
+
+  if(node["Portrait"].IsDefined())
+  {
+    dialogue->setPortrait(DEFAULT_PORTRAIT_PATH + node["Portrait"].as<std::string>());
   }
   return dialogue;
 }
 
 void Scene::destroy()
 {
-  if(this->isStopMusic){
-  free(this->music);
+  if (this->isStopMusic)
+  {
+    free(this->music);
   }
-  for(auto text : this->sceneTexts)
+  for (auto text : this->sceneTexts)
   {
     free(text);
   }
-  for(auto rectangle : this->sceneRectangles)
+  for (auto rectangle : this->sceneRectangles)
   {
     free(rectangle);
   }
-  for(auto dialogue : this->dialogues)
+  for (auto dialogue : this->dialogues)
   {
     free(dialogue);
   }

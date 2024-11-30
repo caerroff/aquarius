@@ -5,13 +5,17 @@ Dialogues:
   - Content: "Oh god..."
     Author: "Man"
     Sound: "snd_txtasg.wav"
+    Portrait: "man.png"
   - Content: "What is wrong?"
     Author: "Woman"
     Sound: "snd_txtasr.wav"
+    Portrait: "woman.png"
   - Content: "This is not a child..."
     Author: "Man"
     Sound: "snd_txtasg.wav"
+    Portrait: "man.png"
   - Content: "What do you mean ...?"
     Author: "Woman"
     Sound: "snd_txtasr.wav"
-nextSceneFile: intro2.yaml
+    Portrait: "woman.png"
+nextSceneFile: intro3.yaml

@@ -1,7 +1,7 @@
 Name: "Opening"
 Music: "thePointOfNoReturn.ogg"
 Time: 5000
-Background: [30,10,10]
+Background: [100,150,200]
 stopMusic: true
 Texts: 
   - Text: "Aquarius"

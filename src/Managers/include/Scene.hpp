@@ -9,6 +9,7 @@
 #define DEFAULT_SCENE_PATH "assets/scene/"
 #define DEFAULT_MUSIC_PATH "assets/music/"
 #define DEFAULT_SOUND_PATH "assets/sound/"
+#define DEFAULT_PORTRAIT_PATH "assets/portrait/"
 
 class Scene
 {
