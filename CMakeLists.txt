@@ -3,6 +3,11 @@ project(CMakeSFMLProject LANGUAGES CXX)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+option(Debug "Debug" OFF)
+if(${Debug})
+add_compile_definitions(DEBUG)
+endif()
+
 
 include(FetchContent)
 FetchContent_Declare(SFML

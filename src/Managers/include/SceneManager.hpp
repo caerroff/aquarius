@@ -4,6 +4,7 @@
 #include <SFML/Audio.hpp>
 #include "Scene.hpp"
 #include <SFML/Main.hpp>
+#include "../include/GameplayManager.hpp"
 #include <chrono>
 #define SCENE_CODE 1
 #define OFF_CODE 2

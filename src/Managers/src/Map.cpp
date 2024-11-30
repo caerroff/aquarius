@@ -14,12 +14,14 @@ Map::Map(sf::Vector2f _size)
 
 void Map::update(sf::RenderWindow* window)
 {
+    for (int i = 0; i < this->tiles.size(); i++)
+    {
+        this->tiles.at(i)->update(window);
+    }
     for (int i = 0; i < this->characters.size(); i++)
     {
         this->characters.at(i)->update(window);
     }
-
-    
 }
 
 void Map::addCharacter(Character * character)
@@ -61,3 +63,9 @@ void Map::addAction(Action* action)
     this->actions.push_back(action);
 }
 
+Map *loadMapFromFile(std::string path)
+{
+    Map *map = new Map();
+    std::cout << "Loading Map at: " << DEFAULT_MAP_PATH << path << std::endl;
+    return map;
+}

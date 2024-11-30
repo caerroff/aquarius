@@ -8,6 +8,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#define DEFAULT_MAP_PATH "../../assets/maps/"
 
 class Map
 {
@@ -26,8 +27,6 @@ class Map
         Map(sf::Vector2f _size);
         sf::Vector2f getSize(){return this->size;}
         void setSize(sf::Vector2f _size){this->size = _size;}
-        static Map* loadFromFile(char* _filePath){return new Map();};
-        Map* loadFromAllMaps(char* _mapName);
         void update(sf::RenderWindow* window);
         void addCharacter(Character * character);
         void removeCharacterAt(int position);
@@ -46,6 +45,8 @@ class Map
         void addAction(Action* action);
         int getActionCount(){return this->actions.size();}
 };
+
+Map *loadMapFromFile(std::string path);
 
 
 

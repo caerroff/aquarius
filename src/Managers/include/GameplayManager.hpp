@@ -4,7 +4,7 @@
 #define OFF_CODE 2
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include <stdlib.h>
+#include <iostream>
 #include <vector>
 #include "../../Collidables/include/Collidables.hpp"
 #include "Map.hpp"
@@ -44,8 +44,7 @@ class GameplayManager
         void addCharacter();
         void addTile(Tile* tile);
         void characterTextBox(int characterIndex, char* text);
-        void loadMap(char* _filePath);
-        void loadDefaultMap(); // This should be deleted in the future
+        void loadMap(std::string path);
         void removeCharacterAt(int position);
         int getCurrentMode();
         void update(sf::RenderWindow* window);

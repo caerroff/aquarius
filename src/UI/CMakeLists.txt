@@ -23,6 +23,7 @@ add_library(ui STATIC
   src/Button.cpp
   src/Dialogue.cpp
 )
+add_compile_definitions(-DDEBUG=1)
 
 target_link_libraries(ui PUBLIC yaml-cpp::yaml-cpp)
 target_link_libraries(ui PRIVATE sfml-graphics)

@@ -8,7 +8,7 @@ class Tile{
 
     public:
         Tile();
+        void update(sf::RenderWindow* window);
 };
-
 
 #endif

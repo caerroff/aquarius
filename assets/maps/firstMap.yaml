@@ -1,0 +1,17 @@
+Name: "First Map",
+Music: "aChildIsBornTonight.ogg",
+Background: [255,0,0],
+Characters:
+  - Name: "Man"
+    XCoords: 0
+    YCoords: 0
+  - Name: "Woman"
+    XCoords: 100
+    YCoords: 0
+Tiles:
+  - Tile:
+    - id: 0
+      xCoords: 0
+      yCoords: 0
+
+NextMapFile: "nameOfNextMap.yaml"
