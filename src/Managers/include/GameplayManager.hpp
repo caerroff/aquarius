@@ -8,6 +8,7 @@
 #include <vector>
 #include "../../Collidables/include/Collidables.hpp"
 #include "Map.hpp"
+#include <SFML/Main.hpp>
 #define DEFAULT_MUSIC_PATH "assets/music/"
 #define DEFAULT_SPRITE_PATH "assets/sprites/"
 #define DEFAULT_FONT_PATH "assets/fonts/PressStart2P-Regular.ttf"
@@ -23,7 +24,10 @@ class GameplayManager
         static GameplayManager *singleton_;
         int currentMode;
         sf::Music music;
+        sf::Clock chrono;
+        sf::Text *fpsCounter = new sf::Text();
         std::string musicPath;
+        std::string nextMapPath = "";
         Map *map;
     
     public:

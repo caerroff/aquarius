@@ -2,6 +2,14 @@
 
 void GameplayManager::setModeGameplay()
 {
+    this->fpsCounter->setPosition(1210, 30);
+    sf::Font *font = new sf::Font();
+    font->loadFromFile("assets/font/PressStart2P-Regular.ttf");
+    this->fpsCounter->setCharacterSize(30);
+    this->fpsCounter->setFillColor(sf::Color(255, 255, 255));
+    this->fpsCounter->setOutlineColor(sf::Color(0,0,0));
+    this->fpsCounter->setOutlineThickness(2);
+    this->fpsCounter->setFont(*font);
     this->currentMode = GAMEPLAY_CODE;
 }
 
@@ -29,10 +37,10 @@ void GameplayManager::update(sf::RenderWindow *window)
         {
             std::cout << "Key Pressed" << std::endl;
 #ifdef DEBUG
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::F1))
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::F1))
             {
                 this->switchNextMap();
-                std::cout << "Hello world" << std::endl;
+                std::cout << "Next Map" << std::endl;
             }
 #endif
         }
@@ -47,6 +55,16 @@ void GameplayManager::update(sf::RenderWindow *window)
     {
         this->map->getActionAt(i)->update(window, 0);
     }
+
+#ifdef DEBUG
+    sf::Time elapsedTime = chrono.getElapsedTime();
+    
+    float fps = std::round(1.f / elapsedTime.asSeconds());
+    std::string fpsString = std::to_string(fps);
+    fpsCounter->setString(fpsString.substr(0, 2));
+    window->draw(*fpsCounter);
+    chrono.restart();
+#endif
 }
 
 void GameplayManager::addCharacter()
