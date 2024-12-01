@@ -46,15 +46,8 @@ void GameplayManager::update(sf::RenderWindow *window)
         }
     }
 
-    window->clear(*map->getClearColor());
-    for (int i = 0; i < this->map->getCharacterCount(); i++)
-    {
-        this->map->getCharacterAt(i)->update(window);
-    }
-    for (int i = 0; i < this->map->getActionCount(); i++)
-    {
-        this->map->getActionAt(i)->update(window, 0);
-    }
+    window->clear(map->getClearColor());
+    map->update(window);
 
 #ifdef DEBUG
     sf::Time elapsedTime = chrono.getElapsedTime();
@@ -134,5 +127,5 @@ int GameplayManager::switchNextMap()
 
 void GameplayManager::loadMap(std::string _filePath)
 {
-    this->map = loadMapFromFile(_filePath);
+    this->map = loadMapFromFile(DEFAULT_MAP_PATH + _filePath);
 }

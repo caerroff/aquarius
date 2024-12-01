@@ -9,9 +9,6 @@
 #include "../../Collidables/include/Collidables.hpp"
 #include "Map.hpp"
 #include <SFML/Main.hpp>
-#define DEFAULT_MUSIC_PATH "assets/music/"
-#define DEFAULT_SPRITE_PATH "assets/sprites/"
-#define DEFAULT_FONT_PATH "assets/fonts/PressStart2P-Regular.ttf"
 #define TEXTBOX_WIDTH 1000
 #define TEXTBOX_HEIGHT 200
 #define TEXTBOX_X 140
