@@ -14,9 +14,9 @@ int main(void)
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Aquarius", sf::Style::Titlebar | sf::Style::Close);
     window->setFramerateLimit(60);
     window->setVerticalSyncEnabled(true);
-    window->setKeyRepeatEnabled(false);
+    window->setKeyRepeatEnabled(true);
 
-    SceneManager::getSceneManager().setModeScene();
+    SceneManager::getSceneManager().setModeScene(window);
     SceneManager::getSceneManager().loadScene("opening.yaml", window);
     while (window->isOpen())
     {        
@@ -33,7 +33,7 @@ int main(void)
         {
             std::cout << SceneManager::getSceneManager().getCurrentMode() << std::endl;
             fprintf(stderr, "Warning ! Thrown to GameplayMode because no mode was set\n");
-            GameplayManager::getGameplayManager().setModeGameplay();
+            GameplayManager::getGameplayManager().setModeGameplay(window);
             GameplayManager::getGameplayManager().update(window);
         }
         window->display();

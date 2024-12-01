@@ -14,6 +14,8 @@ public:
   Tile();
   void update(sf::RenderWindow *window);
   void setPosition(sf::Vector2f position);
+  sf::Vector2f getPosition(){return this->shape->getPosition();}
+  sf::Vector2f getSize(){return this->shape->getSize();}
   void setPosition(float x, float y);
 
   void setId(int id);

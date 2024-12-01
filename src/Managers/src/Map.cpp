@@ -1,21 +1,33 @@
 #include "../include/Map.hpp"
 
-Map::Map()
+Map::Map(sf::RenderWindow *window)
 {
   this->size = sf::Vector2f(0, 0);
   this->clearColor = sf::Color(255, 255, 255);
+  this->view = new sf::View();
+  this->view->setCenter(sf::Vector2f(0, 0));
+  this->view->setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
 }
 
-Map::Map(sf::Vector2f _size)
+Map::Map(sf::RenderWindow *window, sf::Vector2f _size) : Map(window)
 {
   this->size = _size;
 }
 
 void Map::update(sf::RenderWindow *window)
 {
+  window->setView(*this->view);
   for (int i = 0; i < this->tiles.size(); i++)
   {
-    this->tiles.at(i)->update(window);
+    if (viewContains(this->tiles.at(i)->getPosition(), this->tiles.at(i)->getSize()))
+    {
+      std::cout << "Rendered tile at : " << i << std::endl;
+      this->tiles.at(i)->update(window);
+    }
+    else
+    {
+      std::cout << "Didn't render the tile at : " << i << std::endl;
+    }
   }
   for (int i = 0; i < this->characters.size(); i++)
   {
@@ -63,9 +75,9 @@ void Map::addAction(Action *action)
   this->actions.push_back(action);
 }
 
-Map *loadMapFromFile(std::string path)
+Map *loadMapFromFile(std::string path, sf::RenderWindow *window)
 {
-  Map *map = new Map();
+  Map *map = new Map(window);
   std::cout << "Loading Map at: " << DEFAULT_MAP_PATH << path << std::endl;
   try
   {
@@ -102,4 +114,29 @@ Map *loadMapFromFile(std::string path)
   }
 
   return map;
+}
+
+bool Map::viewContains(sf::Vector2f position, sf::Vector2f size)
+{
+  if (position.x < view->getCenter().x - view->getSize().x / 2 - (size.x + 50))
+  {
+    return false;
+  }
+
+  if (position.x > view->getCenter().x + view->getSize().x / 2 + 50)
+  {
+    return false;
+  }
+
+  if (position.y < view->getCenter().y - view->getSize().y / 2 - (size.y + 50))
+  {
+    return false;
+  }
+
+  if (position.y > view->getCenter().y + view->getSize().y / 2 + 50)
+  {
+    return false;
+  }
+
+  return true;
 }

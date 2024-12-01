@@ -35,7 +35,7 @@ public:
     SceneManager(SceneManager const &) = delete;
     void operator=(SceneManager const &) = delete;
     Scene *getCurrentScene() { return this->currentScene; }
-    void setModeScene() { currentMode = SCENE_CODE; }
+    void setModeScene(sf::RenderWindow *window);
     void stopModeScene();
     int getCurrentMode() { return currentMode; }
     void update(sf::RenderWindow *window);

@@ -119,12 +119,21 @@ int SceneManager::switchNextScene()
   if (currentScene->getNextMapName().length())
   {
     this->stopModeScene();
-    GameplayManager::getGameplayManager().setModeGameplay();
-    GameplayManager::getGameplayManager().loadMap(this->currentScene->getNextMapName());
+    GameplayManager::getGameplayManager().setModeGameplay(this->window);
+    GameplayManager::getGameplayManager().loadMap(this->currentScene->getNextMapName(), window);
+    GameplayManager::getGameplayManager().setWindow(this->window);
   }
   else
   {
     this->loadScene(this->getCurrentScene()->getNextSceneName(), window);
   }
   return 0;
+}
+
+void SceneManager::setModeScene(sf::RenderWindow *window)
+{
+  this->window = window;
+  currentMode = SCENE_CODE; 
+  this->window->setKeyRepeatEnabled(false);
+  this->window->setView(this->window->getDefaultView());
 }
