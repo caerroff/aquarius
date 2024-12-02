@@ -20,6 +20,7 @@ class Map
 private:
   sf::Vector2f size;
   sf::View *view;
+  sf::Vector2f viewVelocity;
   std::vector<Character *> characters;
   std::vector<Tile *> tiles;
   std::vector<Action *> actions;
@@ -46,6 +47,7 @@ public:
   void setName(const char *_name) { this->name = _name; }
   void setMusicPath(std::string _musicPath) { this->musicPath = _musicPath; }
   std::string getMusicPath() { return this->musicPath; }
+  std::vector<Tile *> getTiles(){return this->tiles;}
   void setClearColor(sf::Color _clearColor) { this->clearColor = _clearColor; }
   sf::Color getClearColor() { return this->clearColor; }
   Action *getActionAt(int pos);
@@ -53,6 +55,9 @@ public:
   int getActionCount() { return this->actions.size(); }
 
   sf::View *getView() { return this->view; }
+
+  void setViewVelocity(sf::Vector2f velocity);
+  sf::Vector2f getViewVelocity(){return this->viewVelocity;}
 };
 
 Map *loadMapFromFile(std::string path, sf::RenderWindow *window);

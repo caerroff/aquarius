@@ -17,16 +17,21 @@ Map::Map(sf::RenderWindow *window, sf::Vector2f _size) : Map(window)
 void Map::update(sf::RenderWindow *window)
 {
   window->setView(*this->view);
+
+  view->move(viewVelocity);
+  // Slow the view until it's back to 0
+  viewVelocity.x = (int) viewVelocity.x;
+  viewVelocity.y = (int) viewVelocity.y;
+  if(viewVelocity.x > 0)viewVelocity.x --;
+  if(viewVelocity.x < 0)viewVelocity.x ++;
+  if(viewVelocity.y > 0)viewVelocity.y --;
+  if(viewVelocity.y < 0)viewVelocity.y ++;
+
   for (int i = 0; i < this->tiles.size(); i++)
   {
     if (viewContains(this->tiles.at(i)->getPosition(), this->tiles.at(i)->getSize()))
     {
-      std::cout << "Rendered tile at : " << i << std::endl;
       this->tiles.at(i)->update(window);
-    }
-    else
-    {
-      std::cout << "Didn't render the tile at : " << i << std::endl;
     }
   }
   for (int i = 0; i < this->characters.size(); i++)
@@ -78,7 +83,6 @@ void Map::addAction(Action *action)
 Map *loadMapFromFile(std::string path, sf::RenderWindow *window)
 {
   Map *map = new Map(window);
-  std::cout << "Loading Map at: " << DEFAULT_MAP_PATH << path << std::endl;
   try
   {
     YAML::Node mapFile = YAML::LoadFile(path);
@@ -139,4 +143,10 @@ bool Map::viewContains(sf::Vector2f position, sf::Vector2f size)
   }
 
   return true;
+}
+
+void Map::setViewVelocity(sf::Vector2f velocity)
+{
+  this->viewVelocity.x = velocity.x;
+  this->viewVelocity.y = velocity.y;
 }

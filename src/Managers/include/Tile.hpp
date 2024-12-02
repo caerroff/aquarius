@@ -2,6 +2,7 @@
 #define TILE
 #include <SFML/Graphics.hpp>
 #include <yaml-cpp/yaml.h>
+#define DEFAULT_TILE_PATH "assets/tiles/tiles.png"
 
 class Tile
 {

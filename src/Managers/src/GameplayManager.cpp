@@ -26,6 +26,13 @@ int GameplayManager::getCurrentMode()
   return this->currentMode;
 }
 
+int GameplayManager::getTileAt(sf::Vector2f position)
+{
+  std::cout << "Position x: " << position.x << std::endl;
+  std::cout << "Position y: " << position.y << std::endl;
+  return 0;
+}
+
 void GameplayManager::update(sf::RenderWindow *window)
 {
   sf::Event e;
@@ -39,13 +46,21 @@ void GameplayManager::update(sf::RenderWindow *window)
     if (e.type == sf::Event::KeyPressed)
     {
 #ifdef DEBUG
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::F1) && !this->keyState[e.key.code])
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::F1) && !this->keyState[e.key.code] && this->nextMapPath.length() > 0)
       {
         this->switchNextMap();
         std::cout << "(DEBUG) Next Map" << std::endl;
         this->keyState[e.key.code] = true;
       }
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::F2) && !this->keyState[e.key.code])
+      {
+        std::cout << "(DEBUG) Reload current map " << this->currentMapPath << std::endl;
+        this->nextMapPath = this->currentMapPath;
+        this->switchNextMap();
+        this->keyState[e.key.code] = true;
+      }
 #endif
+      
       check_camera(e);
     }
 
@@ -72,20 +87,25 @@ void GameplayManager::update(sf::RenderWindow *window)
 
 void GameplayManager::check_camera(sf::Event e)
 {
-  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-  {
-    map->getView()->move(0, -50);
-  }
   switch (e.key.code)
   {
+  case sf::Keyboard::Up:
+    map->setViewVelocity(sf::Vector2f(0, -20 * 0.001f * window->getView().getSize().y));
+    break;
   case sf::Keyboard::Right:
-    map->getView()->move(50, 0);
+    map->setViewVelocity(sf::Vector2f(20, 0));
     break;
   case sf::Keyboard::Left:
-    map->getView()->move(-50, 0);
+    map->setViewVelocity(sf::Vector2f(-20, 0));
     break;
   case sf::Keyboard::Down:
-    map->getView()->move(0, 50);
+    map->setViewVelocity(sf::Vector2f(0, 20 * 0.001f * window->getView().getSize().y));
+    break;
+  case sf::Keyboard::Equal:
+    map->getView()->zoom(0.9);
+    break;
+  case sf::Keyboard::Dash:
+    map->getView()->zoom(1.1);
     break;
   default:
     break;
@@ -154,10 +174,16 @@ void GameplayManager::characterTextBox(int characterIndex, char *text)
 
 int GameplayManager::switchNextMap()
 {
-  return 1;
+  this->currentMapPath = this->nextMapPath;
+  this->nextMapPath = "";
+  this->loadMap(currentMapPath, this->window);
+  return 0;
 }
 
 void GameplayManager::loadMap(std::string _filePath, sf::RenderWindow *window)
 {
+  window->clear(sf::Color::Blue);
+  window->display();
+  this->currentMapPath = _filePath;
   this->map = loadMapFromFile(DEFAULT_MAP_PATH + _filePath, window);
 }

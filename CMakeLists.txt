@@ -30,6 +30,7 @@ add_executable(aquarius src/main.cpp)
 add_subdirectory(src/Collidables)
 add_subdirectory(src/Managers)
 add_subdirectory(src/UI)
+add_subdirectory(src/Editor)
 
 
 target_include_directories(aquarius PUBLIC src/Collidables)

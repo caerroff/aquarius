@@ -14,6 +14,7 @@ int main(void)
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Aquarius", sf::Style::Titlebar | sf::Style::Close);
     window->setFramerateLimit(60);
     window->setVerticalSyncEnabled(true);
+    window->setMouseCursorVisible(false);
     window->setKeyRepeatEnabled(true);
 
     SceneManager::getSceneManager().setModeScene(window);

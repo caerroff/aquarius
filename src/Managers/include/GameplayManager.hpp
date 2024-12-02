@@ -26,6 +26,7 @@ private:
   sf::Text *fpsCounter = new sf::Text();
   std::string musicPath;
   std::string nextMapPath = "";
+  std::string currentMapPath = "";
   sf::RenderWindow *window = (sf::RenderWindow*) malloc(sizeof(sf::RenderWindow));
   Map *map;
 
@@ -45,6 +46,7 @@ public:
 
   void setWindow(sf::RenderWindow *window) { this->window = window; }
   sf::RenderWindow *getWindow(){return window;}
+  std::vector<Tile*> getTiles(){return this->map->getTiles();}
 
   void playMusic();
   void stopMusic();
@@ -58,6 +60,8 @@ public:
   int getCurrentMode();
   void update(sf::RenderWindow *window);
   int switchNextMap();
+
+  int getTileAt(sf::Vector2f position);
 };
 
 #endif

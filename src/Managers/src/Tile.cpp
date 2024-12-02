@@ -29,7 +29,10 @@ void Tile::setId(int id)
 
 void Tile::updateTexture()
 {
-  ;
+  this->texture = new sf::Texture();
+  this->texture->loadFromFile(DEFAULT_TILE_PATH);
+  this->shape->setTexture(this->texture);
+  this->shape->setTextureRect(sf::IntRect(sf::Vector2i(100*(id%10), (int)100*id/1000), sf::Vector2i(100, 100)));
 }
 
 Tile *loadTileFromFile(YAML::Node node)

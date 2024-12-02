@@ -1,1 +1,0 @@
-#TODO: Make a map maker script that can be used to make maps for the game.
