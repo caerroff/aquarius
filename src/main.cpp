@@ -12,15 +12,22 @@ void handleKeys(sf::Keyboard::Key key, sf::RenderWindow *window);
 int main(void)
 {
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Aquarius", sf::Style::Titlebar | sf::Style::Close);
+    sf::Image *icon = new sf::Image();
+    icon->loadFromFile("assets/icon.png");
+
     window->setFramerateLimit(60);
     window->setVerticalSyncEnabled(true);
     window->setMouseCursorVisible(false);
     window->setKeyRepeatEnabled(true);
+    if (icon->getSize().x)
+    {
+        window->setIcon(icon->getSize().x, icon->getSize().y, icon->getPixelsPtr());
+    }
 
     SceneManager::getSceneManager().setModeScene(window);
     SceneManager::getSceneManager().loadScene("opening.yaml", window);
     while (window->isOpen())
-    {        
+    {
         window->clear(sf::Color::Black);
         if (SceneManager::getSceneManager().getCurrentMode() == SCENE_CODE)
         {
