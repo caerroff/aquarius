@@ -9,14 +9,15 @@
 #define DEFAULT_SCENE_PATH "assets/scene/"
 #define DEFAULT_MUSIC_PATH "assets/music/"
 #define DEFAULT_SOUND_PATH "assets/sound/"
+#define DEFAULT_PORTRAIT_PATH "assets/portrait/"
 
 class Scene
 {
 private:
   std::string name;
-  sf::Music music;
+  sf::Music *music;
   sf::Color bgColor;
-  std::string musicPath;
+  std::string musicPath = "";
   std::vector<sf::Text *> sceneTexts;
   std::vector<sf::RectangleShape *> sceneRectangles;
   std::vector<Action *> sceneActions;
@@ -25,6 +26,7 @@ private:
   long currentFrame;
   std::string nextScene;
   std::string nextMap;
+  bool isStopMusic = true;
 
 public:
   Scene();
@@ -46,11 +48,15 @@ public:
   int getNbRectangles() { return sceneRectangles.size(); }
   void playMusic();
   void stopMusic();
-  sf::Music *getMusic() { return &this->music; }
+  sf::Music *getMusic() { return this->music; }
   void update(sf::RenderWindow *window);
   void changeOpacityText(int position, int opacity);
 
   void loadFromFile(std::string path, sf::RenderWindow *window);
+
+  void destroy();
+
+  bool getIsStopMusic() { return this->isStopMusic; }
 
   std::string getNextSceneName() { return this->nextScene; }
   std::string getNextMapName() { return this->nextMap; }

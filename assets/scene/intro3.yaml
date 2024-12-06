@@ -1,0 +1,7 @@
+Name: "Intro 3"
+Background: [10,10,10]
+stopMusic: false
+Dialogues:
+  - Content: "The man looked at the baby and noticed her \narms were looking like fins, and a tail was \nwhere legs should be..."
+    Sound: "SND_TXT1.wav"
+nextMapFile: firstMap.yaml

@@ -1,63 +1,196 @@
 #include "../include/Map.hpp"
 
-
-Map::Map()
+Map::Map(sf::RenderWindow *window)
 {
-    this->size = sf::Vector2f(0, 0);
-    this->clearColor = new sf::Color(255, 255, 255);
+  this->size = sf::Vector2f(0, 0);
+  this->clearColor = sf::Color(255, 255, 255);
+  this->view = new sf::View();
+  this->view->setCenter(sf::Vector2f(0, 0));
+  this->view->setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
 }
 
-Map::Map(sf::Vector2f _size)
+Map::Map(sf::RenderWindow *window, sf::Vector2f _size) : Map(window)
 {
-    this->size = _size;
+  this->size = _size;
 }
 
-void Map::update(sf::RenderWindow* window)
+void Map::update(sf::RenderWindow *window)
 {
-    for (int i = 0; i < this->characters.size(); i++)
+  view->move(viewVelocity);
+  window->setView(*this->view);
+
+  // Slow the view until it's back to 0
+  viewVelocity.x = (int)viewVelocity.x;
+  viewVelocity.y = (int)viewVelocity.y;
+  if (viewVelocity.x > 0)
+    viewVelocity.x--;
+  if (viewVelocity.x < 0)
+    viewVelocity.x++;
+  if (viewVelocity.y > 0)
+    viewVelocity.y--;
+  if (viewVelocity.y < 0)
+    viewVelocity.y++;
+
+  for (int i = 0; i < this->tiles.size(); i++)
+  {
+    if (viewContains(this->tiles.at(i)->getPosition(), this->tiles.at(i)->getSize()))
     {
-        this->characters.at(i)->update(window);
+      this->tiles.at(i)->update(window);
     }
+  }
+  for (int i = 0; i < this->characters.size(); i++)
+  {
+    this->characters.at(i)->update(window);
+  }
 
-    
+  this->player->update(window);
+  this->view->setCenter(window->getView().getCenter());
 }
 
-void Map::addCharacter(Character * character)
+void Map::addCharacter(Character *character)
 {
-    this->characters.push_back(character);
+  this->characters.push_back(character);
 }
 
 void Map::removeCharacterAt(int position)
 {
-    this->characters.erase(this->characters.begin() + position);
+  this->characters.erase(this->characters.begin() + position);
 }
 
-Character* Map::getCharacterAt(int position)
+Character *Map::getCharacterAt(int position)
 {
-    return this->characters.at(position);
+  return this->characters.at(position);
 }
 
-void Map::addTile(Tile* tile)
+void Map::addTile(Tile *tile)
 {
-    this->tiles.push_back(tile);
+  this->tiles.push_back(tile);
 }
 
 void Map::removeTileAt(int position)
 {
-    this->tiles.erase(this->tiles.begin() + position);
+  this->tiles.erase(this->tiles.begin() + position);
 }
 
-Tile* Map::getTileAt(int position)
+Tile *Map::getTileAt(int position)
 {
-    return this->tiles.at(position);
+  return this->tiles.at(position);
 }
 
-Action* Map::getActionAt(int pos){
-    return this->actions.at(pos);
-}
-
-void Map::addAction(Action* action)
+Action *Map::getActionAt(int pos)
 {
-    this->actions.push_back(action);
+  return this->actions.at(pos);
 }
 
+void Map::addAction(Action *action)
+{
+  this->actions.push_back(action);
+}
+
+Map *loadMapFromFile(std::string path, sf::RenderWindow *window)
+{
+  Map *map = new Map(window);
+  try
+  {
+    YAML::Node mapFile = YAML::LoadFile(path);
+
+    if (mapFile["Background"].IsSequence() && mapFile["Background"].size() == 3)
+    {
+      std::vector<int> color = mapFile["Background"].as<std::vector<int>>();
+      map->setClearColor(sf::Color(color.at(0), color.at(1), color.at(2)));
+    }
+
+    if (mapFile["Music"].IsDefined())
+    {
+      map->setMusicPath(DEFAULT_MUSIC_PATH + mapFile["Music"].as<std::string>());
+    }
+
+    if (mapFile["Characters"].IsDefined())
+    {
+      for (YAML::Node characterNode : mapFile["Characters"])
+      {
+        Character *character = map->loadCharacterFromFile(characterNode);
+        if (dynamic_cast<Player *>(character) != nullptr)
+        {
+          // We know we have a play object
+          map->setPlayer(dynamic_cast<Player *>(character));
+        }
+        else
+        {
+          // We don't have a player, so we must be having a character
+          map->addCharacter(character);
+        }
+      }
+      std::cout << map->getCharacterCount() << std::endl;
+    }
+
+    for (auto tileNode : mapFile["Tiles"])
+    {
+      Tile *tile = loadTileFromFile(tileNode);
+      map->addTile(tile);
+    }
+  }
+  catch (YAML::BadConversion e)
+  {
+    std::cerr << e.what() << std::endl;
+  }
+  catch (YAML::BadFile e)
+  {
+    std::cerr << e.what() << std::endl;
+  }
+  catch (std::exception e)
+  {
+    std::cerr << e.what() << std::endl;
+  }
+
+  return map;
+}
+
+bool Map::viewContains(sf::Vector2f position, sf::Vector2f size)
+{
+  if (position.x < view->getCenter().x - view->getSize().x / 2 - (size.x + 50))
+  {
+    return false;
+  }
+
+  if (position.x > view->getCenter().x + view->getSize().x / 2 + 50)
+  {
+    return false;
+  }
+
+  if (position.y < view->getCenter().y - view->getSize().y / 2 - (size.y + 50))
+  {
+    return false;
+  }
+
+  if (position.y > view->getCenter().y + view->getSize().y / 2 + 50)
+  {
+    return false;
+  }
+
+  return true;
+}
+
+void Map::setViewVelocity(sf::Vector2f velocity)
+{
+  this->viewVelocity.x = velocity.x;
+  this->viewVelocity.y = velocity.y;
+}
+
+Character *Map::loadCharacterFromFile(YAML::Node node)
+{
+  if (node["isPlayer"].IsDefined() && node["isPlayer"].as<bool>() == true)
+  {
+    // We create a Player object instead of a Character
+    Player *player = new Player(node["Name"].as<std::string>(), true);
+    player->loadSprite(node["sprites"].as<std::string>());
+    player->setPosition(sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
+
+    return player;
+  }
+
+  Character *character = new Character();
+  character->setPosition(sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
+
+  return character;
+}

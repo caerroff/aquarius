@@ -1,0 +1,90 @@
+Name: "First Map"
+Music: "aChildIsBornTonight.ogg"
+Background: [50,50,50]
+Characters:
+  - Name: "Aquarius"
+    x: 0
+    y: 100
+    isPlayer: true
+    sprites: "Aquarius/aquarius.png"
+  - Name: "Man"
+    x: 0
+    y: 0
+  - Name: "Woman"
+    x: 100
+    y: 0
+Tiles:
+  - id: 0
+    x: 0
+    y: 0
+  - id: 1
+    x: 100
+    y: 0
+  - id: 1
+    x: 200
+    y: 0
+  - id: 1
+    x: 300
+    y: 0
+  - id: 1
+    x: 400
+    y: 0
+  - id: 1
+    x: 500
+    y: 0
+  - id: 1
+    x: 600
+    y: 0
+  - id: 1
+    x: 700
+    y: 0
+  - id: 1
+    x: 800
+    y: 0
+  - id: 1
+    x: 900
+    y: 0
+  - id: 1
+    x: 0
+    y: 100
+  - id: 1
+    x: 0
+    y: 200
+  - id: 1
+    x: 0
+    y: 300
+  - id: 1
+    x: 0
+    y: 400
+  - id: 1
+    x: 0
+    y: 500
+  - id: 1
+    x: 0
+    y: 600
+  - id: 1
+    x: 0
+    y: 700
+  - id: 1
+    x: 0
+    y: 800
+  - id: 1
+    x: 0
+    y: 900
+  - id: 1
+    x: 100
+    y: 100
+  - id: 1
+    x: 100
+    y: 200
+  - id: 1
+    x: 100
+    y: 300
+  - id: 1
+    x: 100
+    y: 400
+  - id: 1
+    x: 100
+    y: 500
+
+NextMapFile: "nameOfNextMap.yaml"

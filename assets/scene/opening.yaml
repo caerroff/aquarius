@@ -1,7 +1,8 @@
 Name: "Opening"
 Music: "thePointOfNoReturn.ogg"
 Time: 5000
-Background: [30,10,10]
+Background: [100,150,200]
+stopMusic: true
 Texts: 
   - Text: "Aquarius"
     Red: 255
@@ -26,5 +27,4 @@ Texts:
 Inputs:
   - Key: "Space"
     Action: "skip"
-
-nextSceneFile: intro.yaml
+nextMapFile: firstMap.yaml

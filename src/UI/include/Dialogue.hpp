@@ -15,6 +15,9 @@ private:
   sf::Music *music = new sf::Music();
   sf::Text *author;
   sf::RectangleShape *_createDialogueBox();
+  bool isMusicInit = false;
+  sf::RectangleShape *portrait;
+  std::string portraitPath;
 
 public:
   /**
@@ -36,6 +39,10 @@ public:
   Dialogue(std::string content, std::string author);
 
   Dialogue(std::string content, std::string author, std::string soundPath);
+
+  std::string getAuthor() {return this->author->getString();}
+
+  void setPortrait(std::string path);
 
   int draw(sf::RenderWindow* window, sf::Clock *clock);
   int drawEntirely(sf::RenderWindow* window);

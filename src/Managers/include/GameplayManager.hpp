@@ -4,13 +4,11 @@
 #define OFF_CODE 2
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include <stdlib.h>
+#include <iostream>
 #include <vector>
 #include "../../Collidables/include/Collidables.hpp"
 #include "Map.hpp"
-#define DEFAULT_MUSIC_PATH "assets/music/"
-#define DEFAULT_SPRITE_PATH "assets/sprites/"
-#define DEFAULT_FONT_PATH "assets/fonts/PressStart2P-Regular.ttf"
+#include <SFML/Main.hpp>
 #define TEXTBOX_WIDTH 1000
 #define TEXTBOX_HEIGHT 200
 #define TEXTBOX_X 140
@@ -18,39 +16,52 @@
 
 class GameplayManager
 {
-    private:
-        GameplayManager() {}
-        static GameplayManager *singleton_;
-        int currentMode;
-        sf::Music music;
-        std::string musicPath;
-        Map *map;
-    
-    public:
-        static GameplayManager &getGameplayManager()
-        {
-            static GameplayManager instance;
-            return instance;
-        }
-        GameplayManager(GameplayManager const &) = delete;
-        void operator=(GameplayManager const &) = delete;
-        void operator~() = delete;
-        void setMusicPath(const char *_musicPath);
-        std::string getMusicPath() { return this->musicPath; }
-        void playMusic();
-        void stopMusic();
-        void setModeGameplay();
-        void stopModeGameplay();
-        void addCharacter();
-        void addTile(Tile* tile);
-        void characterTextBox(int characterIndex, char* text);
-        void loadMap(char* _filePath);
-        void loadDefaultMap(); // This should be deleted in the future
-        void removeCharacterAt(int position);
-        int getCurrentMode();
-        void update(sf::RenderWindow* window);
-        int switchNextMap();
-};
+private:
+  GameplayManager() {}
+  static GameplayManager *singleton_;
+  int currentMode;
+  std::array<bool, sf::Keyboard::KeyCount> keyState;
+  sf::Music music;
+  sf::Clock chrono;
+  sf::Text *fpsCounter = new sf::Text();
+  std::string musicPath;
+  std::string nextMapPath = "";
+  std::string currentMapPath = "";
+  sf::RenderWindow *window = (sf::RenderWindow*) malloc(sizeof(sf::RenderWindow));
+  Map *map;
 
+  void check_camera();
+
+public:
+  static GameplayManager &getGameplayManager()
+  {
+    static GameplayManager instance;
+    return instance;
+  }
+  GameplayManager(GameplayManager const &) = delete;
+  void operator=(GameplayManager const &) = delete;
+  void operator~() = delete;
+  void setMusicPath(const char *_musicPath);
+  std::string getMusicPath() { return this->musicPath; }
+
+  void setWindow(sf::RenderWindow *window) { this->window = window; }
+  sf::RenderWindow *getWindow(){return window;}
+  std::vector<Tile*> getTiles(){return this->map->getTiles();}
+
+  void playMusic();
+  void stopMusic();
+  void setModeGameplay(sf::RenderWindow* window);
+  void stopModeGameplay();
+  void addCharacter();
+  void addTile(Tile *tile);
+  void characterTextBox(int characterIndex, char *text);
+  void loadMap(std::string path, sf::RenderWindow *window);
+  void removeCharacterAt(int position);
+  int getCurrentMode();
+  void update(sf::RenderWindow *window);
+  int switchNextMap();
+
+  int getTileAt(sf::Vector2f position);
+};
 
 #endif
