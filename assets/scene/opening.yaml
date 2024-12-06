@@ -27,5 +27,4 @@ Texts:
 Inputs:
   - Key: "Space"
     Action: "skip"
-
 nextMapFile: firstMap.yaml
