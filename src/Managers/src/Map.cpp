@@ -16,16 +16,20 @@ Map::Map(sf::RenderWindow *window, sf::Vector2f _size) : Map(window)
 
 void Map::update(sf::RenderWindow *window)
 {
+  view->move(viewVelocity);
   window->setView(*this->view);
 
-  view->move(viewVelocity);
   // Slow the view until it's back to 0
-  viewVelocity.x = (int) viewVelocity.x;
-  viewVelocity.y = (int) viewVelocity.y;
-  if(viewVelocity.x > 0)viewVelocity.x --;
-  if(viewVelocity.x < 0)viewVelocity.x ++;
-  if(viewVelocity.y > 0)viewVelocity.y --;
-  if(viewVelocity.y < 0)viewVelocity.y ++;
+  viewVelocity.x = (int)viewVelocity.x;
+  viewVelocity.y = (int)viewVelocity.y;
+  if (viewVelocity.x > 0)
+    viewVelocity.x--;
+  if (viewVelocity.x < 0)
+    viewVelocity.x++;
+  if (viewVelocity.y > 0)
+    viewVelocity.y--;
+  if (viewVelocity.y < 0)
+    viewVelocity.y++;
 
   for (int i = 0; i < this->tiles.size(); i++)
   {
@@ -38,6 +42,9 @@ void Map::update(sf::RenderWindow *window)
   {
     this->characters.at(i)->update(window);
   }
+
+  this->player->update(window);
+  this->view->setCenter(window->getView().getCenter());
 }
 
 void Map::addCharacter(Character *character)
@@ -98,6 +105,25 @@ Map *loadMapFromFile(std::string path, sf::RenderWindow *window)
       map->setMusicPath(DEFAULT_MUSIC_PATH + mapFile["Music"].as<std::string>());
     }
 
+    if (mapFile["Characters"].IsDefined())
+    {
+      for (YAML::Node characterNode : mapFile["Characters"])
+      {
+        Character *character = map->loadCharacterFromFile(characterNode);
+        if (dynamic_cast<Player *>(character) != nullptr)
+        {
+          // We know we have a play object
+          map->setPlayer(dynamic_cast<Player *>(character));
+        }
+        else
+        {
+          // We don't have a player, so we must be having a character
+          map->addCharacter(character);
+        }
+      }
+      std::cout << map->getCharacterCount() << std::endl;
+    }
+
     for (auto tileNode : mapFile["Tiles"])
     {
       Tile *tile = loadTileFromFile(tileNode);
@@ -149,4 +175,22 @@ void Map::setViewVelocity(sf::Vector2f velocity)
 {
   this->viewVelocity.x = velocity.x;
   this->viewVelocity.y = velocity.y;
+}
+
+Character *Map::loadCharacterFromFile(YAML::Node node)
+{
+  if (node["isPlayer"].IsDefined() && node["isPlayer"].as<bool>() == true)
+  {
+    // We create a Player object instead of a Character
+    Player *player = new Player(node["Name"].as<std::string>(), true);
+    player->loadSprite(node["sprites"].as<std::string>());
+    player->setPosition(sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
+
+    return player;
+  }
+
+  Character *character = new Character();
+  character->setPosition(sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
+
+  return character;
 }

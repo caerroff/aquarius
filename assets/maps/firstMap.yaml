@@ -2,6 +2,11 @@ Name: "First Map"
 Music: "aChildIsBornTonight.ogg"
 Background: [50,50,50]
 Characters:
+  - Name: "Aquarius"
+    x: 0
+    y: 100
+    isPlayer: true
+    sprites: "Aquarius/aquarius.png"
   - Name: "Man"
     x: 0
     y: 0

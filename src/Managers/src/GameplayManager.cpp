@@ -36,6 +36,7 @@ int GameplayManager::getTileAt(sf::Vector2f position)
 void GameplayManager::update(sf::RenderWindow *window)
 {
   sf::Event e;
+  check_camera();
   while (window->pollEvent(e))
   {
     if (e.type == sf::Event::Closed)
@@ -45,6 +46,17 @@ void GameplayManager::update(sf::RenderWindow *window)
     }
     if (e.type == sf::Event::KeyPressed)
     {
+      switch (e.key.code)
+      {
+      case sf::Keyboard::Equal:
+        map->getView()->zoom(0.9);
+        break;
+      case sf::Keyboard::Dash:
+        map->getView()->zoom(1.1);
+        break;
+      default:
+        break;
+      }
 #ifdef DEBUG
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::F1) && !this->keyState[e.key.code] && this->nextMapPath.length() > 0)
       {
@@ -60,10 +72,7 @@ void GameplayManager::update(sf::RenderWindow *window)
         this->keyState[e.key.code] = true;
       }
 #endif
-      
-      check_camera(e);
     }
-
     if (e.type == sf::Event::KeyReleased)
     {
       this->keyState[e.key.code] = false;
@@ -85,30 +94,26 @@ void GameplayManager::update(sf::RenderWindow *window)
 #endif
 }
 
-void GameplayManager::check_camera(sf::Event e)
+void GameplayManager::check_camera()
 {
-  switch (e.key.code)
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
   {
-  case sf::Keyboard::Up:
-    map->setViewVelocity(sf::Vector2f(0, -20 * 0.001f * window->getView().getSize().y));
-    break;
-  case sf::Keyboard::Right:
-    map->setViewVelocity(sf::Vector2f(20, 0));
-    break;
-  case sf::Keyboard::Left:
-    map->setViewVelocity(sf::Vector2f(-20, 0));
-    break;
-  case sf::Keyboard::Down:
-    map->setViewVelocity(sf::Vector2f(0, 20 * 0.001f * window->getView().getSize().y));
-    break;
-  case sf::Keyboard::Equal:
-    map->getView()->zoom(0.9);
-    break;
-  case sf::Keyboard::Dash:
-    map->getView()->zoom(1.1);
-    break;
-  default:
-    break;
+    map->setViewVelocity(sf::Vector2f(map->getViewVelocity().x, -20 * 0.001f * window->getView().getSize().y));
+  }
+
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+  {
+    map->setViewVelocity(sf::Vector2f((20 * 0.001f * window->getView().getSize().x), map->getViewVelocity().y));
+  }
+
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+  {
+    map->setViewVelocity(sf::Vector2f((-20 * 0.001f * window->getView().getSize().x), map->getViewVelocity().y));
+  }
+
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+  {
+    map->setViewVelocity(sf::Vector2f(map->getViewVelocity().x, 20 * 0.001f * window->getView().getSize().y));
   }
 }
 

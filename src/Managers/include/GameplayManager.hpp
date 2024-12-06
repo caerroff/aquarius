@@ -30,7 +30,7 @@ private:
   sf::RenderWindow *window = (sf::RenderWindow*) malloc(sizeof(sf::RenderWindow));
   Map *map;
 
-  void check_camera(sf::Event e);
+  void check_camera();
 
 public:
   static GameplayManager &getGameplayManager()

@@ -27,6 +27,7 @@ private:
   std::string musicPath;
   sf::Color clearColor;
   Map *nextMap;
+  Player* player;
   const char *name;
   bool viewContains(sf::Vector2f position, sf::Vector2f size);
 
@@ -52,7 +53,11 @@ public:
   sf::Color getClearColor() { return this->clearColor; }
   Action *getActionAt(int pos);
   void addAction(Action *action);
+  Character *loadCharacterFromFile(YAML::Node node);
   int getActionCount() { return this->actions.size(); }
+
+  void setPlayer(Player* player) { this->player = player;}
+  Player* getPlayer(){return this->player;}
 
   sf::View *getView() { return this->view; }
 
