@@ -37,6 +37,8 @@ void Player::update(sf::RenderWindow *window)
         window->setView(tempView);
     }
 
+    this->animation.update(this);
+
     velocity.x = (int)velocity.x;
     velocity.y = (int)velocity.y;
     if (velocity.x > 0)

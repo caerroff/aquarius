@@ -19,6 +19,7 @@ Character::Character(std::string _name, std::string _spritePath) : Character(_na
 
 void Character::update(sf::RenderWindow* window)
 {
+    this->animation.update(this);
     window->draw(*this->body);
 }
 

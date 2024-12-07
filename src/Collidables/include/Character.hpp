@@ -6,6 +6,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Main.hpp>
 #include "CollisionEntity.hpp"
+#include "Animation.hpp"
 
 class Character : public CollisionEntity
 {
@@ -17,6 +18,10 @@ private:
     sf::RectangleShape* hitbox;
     sf::Texture* faceSprite;
     sf::Texture* spriteSheet;
+
+protected:
+    sf::Vector2f velocity;
+    Animation animation = Animation();
 
 public:
     Character();
@@ -34,6 +39,8 @@ public:
 
     void setPosition(sf::Vector2f position) { this->body->setPosition(position) ;}
     sf::Vector2f getPosition() { return this->body->getPosition();}
+
+    sf::Vector2f getVelocity() { return this->velocity ;}
 };
 
 #endif
