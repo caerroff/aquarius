@@ -37,7 +37,7 @@ void Player::update(sf::RenderWindow *window)
         window->setView(tempView);
     }
 
-    this->animation.update(this);
+    this->animate();
 
     velocity.x = (int)velocity.x;
     velocity.y = (int)velocity.y;
@@ -73,15 +73,15 @@ void Player::update(sf::RenderWindow *window)
 
 void Player::handleKeys()
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        this->getBody()->move(sf::Vector2f(0, -2));
+    ;
+}
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        this->getBody()->move(sf::Vector2f(0, 2));
+void Player::updateSpriteInfos()
+{
+    Character::updateSpriteInfos();
+}
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        this->getBody()->move(sf::Vector2f(2, 0));
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        this->getBody()->move(sf::Vector2f(-2, 0));
+void Player::loadSprite(std::string path, sf::Vector2i size)
+{
+    Character::loadSprite(path, size);
 }

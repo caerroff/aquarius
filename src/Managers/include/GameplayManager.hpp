@@ -62,6 +62,8 @@ public:
   int switchNextMap();
 
   int getTileAt(sf::Vector2f position);
+
+  Player* getPlayer(){return map->getPlayer();}
 };
 
 #endif

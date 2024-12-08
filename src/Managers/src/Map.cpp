@@ -112,7 +112,7 @@ Map *loadMapFromFile(std::string path, sf::RenderWindow *window)
         Character *character = map->loadCharacterFromFile(characterNode);
         if (dynamic_cast<Player *>(character) != nullptr)
         {
-          // We know we have a play object
+          // We know we have a player object
           map->setPlayer(dynamic_cast<Player *>(character));
         }
         else
@@ -121,7 +121,6 @@ Map *loadMapFromFile(std::string path, sf::RenderWindow *window)
           map->addCharacter(character);
         }
       }
-      std::cout << map->getCharacterCount() << std::endl;
     }
 
     for (auto tileNode : mapFile["Tiles"])
@@ -185,7 +184,6 @@ Character *Map::loadCharacterFromFile(YAML::Node node)
     Player *player = new Player(node["Name"].as<std::string>(), true);
     player->loadSprite(node["sprites"].as<std::string>());
     player->setPosition(sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
-
     return player;
   }
 
