@@ -29,6 +29,7 @@ private:
   Map *nextMap;
   Player* player;
   const char *name;
+  std::array<bool, sf::Keyboard::KeyCount> keyState;
   bool viewContains(sf::Vector2f position, sf::Vector2f size);
 
 public:

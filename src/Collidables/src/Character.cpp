@@ -21,6 +21,11 @@ Character::Character(std::string _name, std::string _spritePath) : Character(_na
 void Character::update(sf::RenderWindow *window)
 {
     this->animate();
+    this->setAnimation();
+    if(this->currentState == State::TALKING)
+    {
+        this->currentDialogue->draw(window, &dialogueClock);
+    }
     window->draw(*this->body);
 }
 
@@ -53,25 +58,42 @@ void Character::loadSprite(std::string path, sf::Vector2i size)
 
 void Character::animate()
 {
+    animationInfos.lastRow = animationInfos.currentRow;
+    if (velocity.x == 0 && velocity.y == 0)
+    {
+        animationInfos.currentRow = 0;
+        return;
+    }
     if (this->velocity.x < 0)
     {
+        animationInfos.currentRow = 1;
         body->setScale(1.0f, 1.0f);
+        return;
     }
     else if (this->velocity.x > 0)
     {
+        animationInfos.currentRow = 1;
         body->setScale(-1.0f, 1.0f);
+        return;
     }
 
     if (this->velocity.y > 0)
     {
+        animationInfos.currentRow = 3;
+        return;
         // Turn the sprite up;
     }
     else if (this->velocity.y < 0)
     {
+        animationInfos.currentRow = 2;
+        return;
         // Turn the sprite down;
     }
+}
 
-    if (animationInfos.currentColumn <= animationInfos.nbSpritesPerRow[animationInfos.currentRow] && animationClock.getElapsedTime().asMilliseconds() > 200)
+void Character::setAnimation()
+{
+    if (animationInfos.currentColumn <= animationInfos.nbSpritesPerRow[animationInfos.currentRow] && animationClock.getElapsedTime().asMilliseconds() > 100)
     {
         animationClock.restart();
         sf::IntRect intRect = body->getTextureRect();
@@ -132,4 +154,11 @@ void Character::updateSpriteInfos()
                 break;
         }
     }
+}
+
+void Character::dialogue(sf::RenderWindow *window)
+{
+    this->currentState = State::TALKING;
+    this->dialogueClock.restart();
+    this->currentDialogue = new Dialogue("Hi Everyone");
 }

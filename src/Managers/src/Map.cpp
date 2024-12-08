@@ -7,6 +7,7 @@ Map::Map(sf::RenderWindow *window)
   this->view = new sf::View();
   this->view->setCenter(sf::Vector2f(0, 0));
   this->view->setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
+  keyState.fill(false);
 }
 
 Map::Map(sf::RenderWindow *window, sf::Vector2f _size) : Map(window)
@@ -43,7 +44,30 @@ void Map::update(sf::RenderWindow *window)
     this->characters.at(i)->update(window);
   }
 
-  this->player->update(window);
+  if(!sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+  {
+    keyState[sf::Keyboard::E] = false;
+  }
+
+  this->player->update(window, characters);
+  for (auto character : characters)
+  {
+    if (character->getBody()->getGlobalBounds().intersects(this->player->getBody()->getGlobalBounds()))
+    {
+      if (!keyState[sf::Keyboard::E] && sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+      {
+        keyState[sf::Keyboard::E] = true;
+        // Call the dialogue of this character
+        character->dialogue(window);
+      }
+      character->getBody()->setFillColor(sf::Color::Red);
+    }
+    else
+    {
+      character->getBody()->setFillColor(sf::Color::White);
+      character->setCurrentState(State::AFK);
+    }
+  }
   this->view->setCenter(window->getView().getCenter());
 }
 
