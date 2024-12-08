@@ -54,7 +54,7 @@ void Map::update(sf::RenderWindow *window)
   {
     if (character->getBody()->getGlobalBounds().intersects(this->player->getBody()->getGlobalBounds()))
     {
-      if (!keyState[sf::Keyboard::E] && sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+      if (!keyState[sf::Keyboard::E] && sf::Keyboard::isKeyPressed(sf::Keyboard::E) && character->getCurrentState() != State::TALKING)
       {
         keyState[sf::Keyboard::E] = true;
         // Call the dialogue of this character

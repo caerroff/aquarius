@@ -13,6 +13,8 @@ Dialogue::Dialogue()
   drawnContent->setFont(*font);
   drawnContent->setLineSpacing(1.25);
   author->setFont(*font);
+  this->isMusicInit = true;
+  this->music->openFromFile("assets/sound/SND_TXT1.wav");
   this->dialogueBox = this->_createDialogueBox();
   this->drawnContent->setCharacterSize(25);
   this->author->setCharacterSize(20);
