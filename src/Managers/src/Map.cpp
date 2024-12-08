@@ -7,6 +7,7 @@ Map::Map(sf::RenderWindow *window)
   this->view = new sf::View();
   this->view->setCenter(sf::Vector2f(0, 0));
   this->view->setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
+  keyState.fill(false);
 }
 
 Map::Map(sf::RenderWindow *window, sf::Vector2f _size) : Map(window)
@@ -43,7 +44,30 @@ void Map::update(sf::RenderWindow *window)
     this->characters.at(i)->update(window);
   }
 
-  this->player->update(window);
+  if(!sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+  {
+    keyState[sf::Keyboard::E] = false;
+  }
+
+  this->player->update(window, characters);
+  for (auto character : characters)
+  {
+    if (character->getBody()->getGlobalBounds().intersects(this->player->getBody()->getGlobalBounds()))
+    {
+      if (!keyState[sf::Keyboard::E] && sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+      {
+        keyState[sf::Keyboard::E] = true;
+        // Call the dialogue of this character
+        character->dialogue(window);
+      }
+      character->getBody()->setFillColor(sf::Color::Red);
+    }
+    else
+    {
+      character->getBody()->setFillColor(sf::Color::White);
+      character->setCurrentState(State::AFK);
+    }
+  }
   this->view->setCenter(window->getView().getCenter());
 }
 
@@ -112,7 +136,7 @@ Map *loadMapFromFile(std::string path, sf::RenderWindow *window)
         Character *character = map->loadCharacterFromFile(characterNode);
         if (dynamic_cast<Player *>(character) != nullptr)
         {
-          // We know we have a play object
+          // We know we have a player object
           map->setPlayer(dynamic_cast<Player *>(character));
         }
         else
@@ -121,7 +145,6 @@ Map *loadMapFromFile(std::string path, sf::RenderWindow *window)
           map->addCharacter(character);
         }
       }
-      std::cout << map->getCharacterCount() << std::endl;
     }
 
     for (auto tileNode : mapFile["Tiles"])
@@ -185,7 +208,6 @@ Character *Map::loadCharacterFromFile(YAML::Node node)
     Player *player = new Player(node["Name"].as<std::string>(), true);
     player->loadSprite(node["sprites"].as<std::string>());
     player->setPosition(sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
-
     return player;
   }
 
