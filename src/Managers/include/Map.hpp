@@ -18,54 +18,89 @@
 class Map
 {
 private:
+  // Infos
   sf::Vector2f size;
-  sf::View *view;
+  std::string musicPath;
+  sf::Color clearColor;
+  const char *name;
+  Map *nextMap;
+  
+  // Camera and rendering utilities
   sf::Vector2f viewVelocity;
+  sf::View *view;
+  bool viewContains(sf::Vector2f position, sf::Vector2f size);
+
+  // Vectors
   std::vector<Character *> characters;
   std::vector<Tile *> tiles;
   std::vector<Action *> actions;
-  std::string musicPath;
-  sf::Color clearColor;
-  Map *nextMap;
-  Player* player;
-  const char *name;
-  std::array<bool, sf::Keyboard::KeyCount> keyState;
-  bool viewContains(sf::Vector2f position, sf::Vector2f size);
+  std::vector<Item *> items;
 
+  // Misc
+  std::array<bool, sf::Keyboard::KeyCount> keyState;
+  Player *player;
+  
 public:
+  // Constructors
   Map(sf::RenderWindow *window);
   Map(sf::RenderWindow *window, sf::Vector2f _size);
-  sf::Vector2f getSize() { return this->size; }
-  void setSize(sf::Vector2f _size) { this->size = _size; }
+
+  // Useful methods
+  /**
+   * @brief updates the map and calls the update method of all objects it contains,
+   * including characters, player, items, tiles etc...
+   * @param window the window we want to render the map to.
+   */
   void update(sf::RenderWindow *window);
-  void addCharacter(Character *character);
-  void removeCharacterAt(int position);
+
+  /**
+   * @brief loads the Character OR Player from a YAML file using yaml-cpp
+   * @param node The node (yaml-cpp object) containing all informations about the player.
+   * @return A pointer to the loaded Character or Player (polymorphism).
+   */
+  Character *loadCharacterFromFile(YAML::Node node);
+
+  // Getters
+  sf::Vector2f getSize() { return this->size; }
   Character *getCharacterAt(int position);
   int getCharacterCount() { return this->characters.size(); }
-  void addTile(Tile *tile);
-  void removeTileAt(int position);
   Tile *getTileAt(int position);
+  std::string getMusicPath() { return this->musicPath; }
   const char *getName() { return this->name; }
+  std::vector<Tile *> getTiles() { return this->tiles; }
+  sf::Color getClearColor() { return this->clearColor; }
+  int getActionCount() { return this->actions.size(); }
+  Player *getPlayer() { return this->player; }
+  sf::View *getView() { return this->view; }
+  sf::Vector2f getViewVelocity() { return this->viewVelocity; }
+  Item *getItemAt(int index) { return this->items.at(index); }
+  std::vector<Item *> getItems() { return this->items; }
+  Action *getActionAt(int pos);
+
+  // Adders
+  void addCharacter(Character *character);
+  void addTile(Tile *tile);
+  void addAction(Action *action);
+  void addItem(Item *item) { this->items.push_back(item); }
+
+  // Setters
+  void setSize(sf::Vector2f _size) { this->size = _size; }
+  void removeCharacterAt(int position);
+  void removeTileAt(int position);
   void setName(const char *_name) { this->name = _name; }
   void setMusicPath(std::string _musicPath) { this->musicPath = _musicPath; }
-  std::string getMusicPath() { return this->musicPath; }
-  std::vector<Tile *> getTiles(){return this->tiles;}
   void setClearColor(sf::Color _clearColor) { this->clearColor = _clearColor; }
-  sf::Color getClearColor() { return this->clearColor; }
-  Action *getActionAt(int pos);
-  void addAction(Action *action);
-  Character *loadCharacterFromFile(YAML::Node node);
-  int getActionCount() { return this->actions.size(); }
-
-  void setPlayer(Player* player) { this->player = player;}
-  Player* getPlayer(){return this->player;}
-
-  sf::View *getView() { return this->view; }
-
+  void setPlayer(Player *player) { this->player = player; }
   void setViewVelocity(sf::Vector2f velocity);
-  sf::Vector2f getViewVelocity(){return this->viewVelocity;}
 };
 
+/**
+ * @brief loads a map from the specified file and passes it the window 
+ * argument which the map will use as default rendering target.
+ * @param path The path to the YAML file containing the map (can be relative or absolute)
+ * @param window A pointer to the window that will be given to the created Map
+ * @return A pointer to the created Map object
+ */
 Map *loadMapFromFile(std::string path, sf::RenderWindow *window);
 
 #endif
