@@ -164,5 +164,5 @@ void Character::dialogue(sf::RenderWindow *window)
 {
     this->currentState = State::TALKING;
     this->dialogueClock.restart();
-    this->currentDialogue = new Dialogue("Hi Everyone");
+    this->currentDialogue = new Dialogue("Hi Everyone...", this->name);
 }

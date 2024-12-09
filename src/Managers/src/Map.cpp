@@ -211,7 +211,7 @@ Character *Map::loadCharacterFromFile(YAML::Node node)
     return player;
   }
 
-  Character *character = new Character();
+  Character *character = new Character(node["Name"].as<std::string>());
   character->setPosition(sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
 
   return character;
