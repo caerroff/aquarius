@@ -8,6 +8,9 @@ Map::Map(sf::RenderWindow *window)
   this->view->setCenter(sf::Vector2f(0, 0));
   this->view->setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
   keyState.fill(false);
+  sf::Texture* texture = new sf::Texture();
+  texture->loadFromFile(DEFAULT_SPRITE_PATH + std::string("Items/items.png"));
+  this->items.push_back(new Item(0, sf::Vector2f(200, 200), texture));
 }
 
 Map::Map(sf::RenderWindow *window, sf::Vector2f _size) : Map(window)
@@ -67,6 +70,11 @@ void Map::update(sf::RenderWindow *window)
       character->getBody()->setFillColor(sf::Color::White);
       character->setCurrentState(State::AFK);
     }
+  }
+
+  for (auto item : items)
+  {
+    item->update(window);
   }
   this->view->setCenter(window->getView().getCenter());
 }

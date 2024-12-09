@@ -5,8 +5,8 @@
 class CollisionEntity
 {
     protected:
-        sf::RectangleShape hitbox;
-        sf::RectangleShape *body;
+        sf::RectangleShape *hitbox = new sf::RectangleShape();
+        sf::RectangleShape *body = new sf::RectangleShape();
         sf::Vector2f size;
         bool renderable;
 
