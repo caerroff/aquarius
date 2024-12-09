@@ -58,6 +58,10 @@ void Character::loadSprite(std::string path, sf::Vector2i size)
 
 void Character::animate()
 {
+    if(animationInfos.lastRow != animationInfos.currentRow)
+    {
+        animationInfos.currentColumn = 0;
+    }
     animationInfos.lastRow = animationInfos.currentRow;
     if (velocity.x == 0 && velocity.y == 0)
     {

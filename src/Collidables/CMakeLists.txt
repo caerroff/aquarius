@@ -27,6 +27,8 @@ add_library(collidables STATIC
 target_link_libraries(collidables PUBLIC yaml-cpp::yaml-cpp)
 target_link_libraries(collidables PRIVATE sfml-graphics)
 target_link_libraries(collidables PRIVATE sfml-audio)
+target_include_directories(collidables PRIVATE ../UI)
+target_link_libraries(collidables PRIVATE ui)
 target_compile_features(collidables PRIVATE cxx_std_17)
 
 if(WIN32)
