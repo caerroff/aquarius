@@ -8,9 +8,9 @@ Player::Player(std::string name, int _isBeingPlayed) : Character(name)
 
 void Player::update(sf::RenderWindow *window, std::vector<Character *> characters)
 {
-    // 10 = a^2 + b^2
+    // 6 = a^2 + b^2
     // 5*sqrt(2)
-    // 100 = 10^2 + 10^2
+    // 72 = 6^2 + 6^2
     if (velocity.x && velocity.y)
     {
         if (abs(velocity.x) > 5 * sqrt(2))
