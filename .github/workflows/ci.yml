@@ -4,10 +4,7 @@ on:
   push:
     branches:
       - master
-<<<<<<< HEAD
       - develop
-=======
->>>>>>> origin/master
 
 defaults:
   run:
