@@ -3,12 +3,14 @@
 #include "Character.hpp"
 #include <iostream>
 #include <math.h>
+#include "Item.hpp"
 
 class Player : public Character
 {
 
 private:
     int isBeingPlayed;
+    std::vector<Item *> items;
 
 public:
     Player(std::string name, int _isBeingPlayed);
@@ -19,6 +21,10 @@ public:
 
     void loadSprite(std::string path, sf::Vector2i size = sf::Vector2i(64, 64));
     void updateSpriteInfos();
+
+    void addItemToInventory(Item* item){ this->items.push_back(item);}
+    std::vector<Item *> getAllItems(){return this->items;}
+    Item* getItemAt(int position){return this->items.at(position);}
 };
 
 #endif

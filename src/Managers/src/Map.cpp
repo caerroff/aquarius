@@ -8,7 +8,7 @@ Map::Map(sf::RenderWindow *window)
   this->view->setCenter(sf::Vector2f(0, 0));
   this->view->setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
   keyState.fill(false);
-  sf::Texture* texture = new sf::Texture();
+  sf::Texture *texture = new sf::Texture();
   texture->loadFromFile(DEFAULT_SPRITE_PATH + std::string("Items/items.png"));
   this->items.push_back(new Item(0, sf::Vector2f(200, 200), texture));
 }
@@ -47,7 +47,7 @@ void Map::update(sf::RenderWindow *window)
     this->characters.at(i)->update(window);
   }
 
-  if(!sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+  if (!sf::Keyboard::isKeyPressed(sf::Keyboard::E))
   {
     keyState[sf::Keyboard::E] = false;
   }
@@ -72,9 +72,26 @@ void Map::update(sf::RenderWindow *window)
     }
   }
 
-  for (auto item : items)
+  for (int i = 0; i < this->items.size(); i ++)
   {
+    Item* item = this->items.at(i);
     item->update(window);
+    if (item->getBody()->getGlobalBounds().intersects(this->player->getBody()->getGlobalBounds()))
+    {
+      item->getBody()->setFillColor(sf::Color(125, 125, 125));
+      if(!keyState[sf::Keyboard::E] && sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+      {
+        keyState[sf::Keyboard::E] = true;
+        this->player->addItemToInventory(item);
+        std::vector<Item*>::iterator it = this->items.begin();
+        std::advance(it, i);
+        this->items.erase(it);
+      }
+    }
+    else
+    {
+      item->getBody()->setFillColor(sf::Color::White);
+    }
   }
   this->view->setCenter(window->getView().getCenter());
 }

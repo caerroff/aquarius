@@ -16,6 +16,8 @@ class CollisionEntity
         sf::Vector2f getSize(){return this->size;}
         void setSize(int x, int y){this->size = sf::Vector2f(x, y);}
         void setSize(sf::Vector2f size){this->size = size;}
+
+        sf::RectangleShape *getBody(){return this->body;}
 };
 
 

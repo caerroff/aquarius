@@ -38,11 +38,11 @@ void Item::update(sf::RenderWindow *window)
 void Item::animate()
 {
     // Make the item body float 50px up and then 50px down
-    if (this->body->getPosition().y - 10 < this->hitbox->getPosition().y)
+    if (this->body->getPosition().y - 5 < this->hitbox->getPosition().y)
     {
         if (this->animationDirection == DOWN)
         {
-            this->body->move(0, 0.5);
+            this->body->move(0, 0.2);
         }
     }
     else
@@ -50,11 +50,11 @@ void Item::animate()
         this->animationDirection = UP;
     }
 
-    if (this->body->getPosition().y + 10 > this->hitbox->getPosition().y)
+    if (this->body->getPosition().y + 5 > this->hitbox->getPosition().y)
     {
         if (this->animationDirection == UP)
         {
-            this->body->move(0, -0.5);
+            this->body->move(0, -0.2);
         }
     }
     else
