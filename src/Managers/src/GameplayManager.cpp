@@ -202,7 +202,7 @@ void GameplayManager::loadMap(std::string _filePath, sf::RenderWindow *window)
     window->draw(text);
     text.setString(text.getString() + ".");
     window->display();
-    _sleep(20);
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
   }
   this->map = futureMap.get();
 }
