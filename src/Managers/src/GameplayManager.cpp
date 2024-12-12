@@ -186,8 +186,23 @@ int GameplayManager::switchNextMap()
 
 void GameplayManager::loadMap(std::string _filePath, sf::RenderWindow *window)
 {
-  window->clear(sf::Color(125, 125, 200));
-  window->display();
   this->currentMapPath = _filePath;
-  this->map = loadMapFromFile(DEFAULT_MAP_PATH + _filePath, window);
+  std::future<Map*> futureMap = std::async(&loadMapFromFile, DEFAULT_MAP_PATH + _filePath, window);  
+  sf::Text text;
+  sf::Font font;
+  font.loadFromFile(DEFAULT_FONT_PATH);
+  text.setFont(font);
+  text.setFillColor(sf::Color::White);
+  text.setCharacterSize(20);
+  text.setPosition(sf::Vector2f(100, 100));
+  text.setString("Loading");
+  while(! futureMap._Is_ready())
+  {
+    window->clear(sf::Color(25, 5, 0));
+    window->draw(text);
+    text.setString(text.getString() + ".");
+    window->display();
+    _sleep(20);
+  }
+  this->map = futureMap.get();
 }

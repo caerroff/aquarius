@@ -8,11 +8,10 @@
 #include "Tile.hpp"
 #include <vector>
 #include <iostream>
-#include <fstream>
 #define DEFAULT_MUSIC_PATH "assets/music/"
 #define DEFAULT_SPRITE_PATH "assets/sprites/"
 #define DEFAULT_TILES_PATH "assets/tiles/"
-#define DEFAULT_FONT_PATH "assets/fonts/PressStart2P-Regular.ttf"
+#define DEFAULT_FONT_PATH "assets/font/PressStart2P-Regular.ttf"
 #define DEFAULT_MAP_PATH "assets/maps/"
 
 struct Flags{

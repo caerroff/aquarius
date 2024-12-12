@@ -9,6 +9,8 @@
 #include "../../Collidables/include/Collidables.hpp"
 #include "Map.hpp"
 #include <SFML/Main.hpp>
+#include <thread>
+#include <future>
 #define TEXTBOX_WIDTH 1000
 #define TEXTBOX_HEIGHT 200
 #define TEXTBOX_X 140
