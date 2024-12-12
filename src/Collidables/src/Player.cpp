@@ -6,7 +6,7 @@ Player::Player(std::string name, int _isBeingPlayed) : Character(name)
     this->getBody()->setFillColor(sf::Color::Red);
 }
 
-void Player::update(sf::RenderWindow *window)
+void Player::update(sf::RenderWindow *window, std::vector<Character *> characters)
 {
     // 10 = a^2 + b^2
     // 5*sqrt(2)
@@ -15,7 +15,7 @@ void Player::update(sf::RenderWindow *window)
     {
         if (abs(velocity.x) > 5 * sqrt(2))
         {
-            if(velocity.x > 0)
+            if (velocity.x > 0)
                 velocity.x = 5 * sqrt(2);
             else
                 velocity.x = -(5 * sqrt(2));
@@ -23,7 +23,7 @@ void Player::update(sf::RenderWindow *window)
 
         if (abs(velocity.y) > 5 * sqrt(2))
         {
-            if(velocity.y > 0)
+            if (velocity.y > 0)
                 velocity.y = 5 * sqrt(2);
             else
                 velocity.y = -(5 * sqrt(2));
@@ -47,39 +47,42 @@ void Player::update(sf::RenderWindow *window)
         velocity.y--;
     if (velocity.y < 0)
         velocity.y++;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    if (this->getCurrentState() != State::TALKING)
     {
-        this->velocity = sf::Vector2f(velocity.x, 10);
-    }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+        {
+            this->velocity = sf::Vector2f(velocity.x, 6);
+        }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-    {
-        this->velocity = sf::Vector2f(velocity.x, -10);
-    }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+        {
+            this->velocity = sf::Vector2f(velocity.x, -6);
+        }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-    {
-        this->velocity = sf::Vector2f(-10, velocity.y);
-    }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+        {
+            this->velocity = sf::Vector2f(-6, velocity.y);
+        }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-    {
-        this->velocity = sf::Vector2f(10, velocity.y);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+        {
+            this->velocity = sf::Vector2f(6, velocity.y);
+        }
     }
-    window->draw(*this->getBody());
+    Character::update(window);
 }
 
 void Player::handleKeys()
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        this->getBody()->move(sf::Vector2f(0, -2));
+    ;
+}
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        this->getBody()->move(sf::Vector2f(0, 2));
+void Player::updateSpriteInfos()
+{
+    Character::updateSpriteInfos();
+}
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        this->getBody()->move(sf::Vector2f(2, 0));
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        this->getBody()->move(sf::Vector2f(-2, 0));
+void Player::loadSprite(std::string path, sf::Vector2i size)
+{
+    Character::loadSprite(path, size);
 }

@@ -5,28 +5,30 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
 include(FetchContent)
-FetchContent_Declare(SFML
+fetchcontent_declare(SFML
   GIT_REPOSITORY https://github.com/SFML/SFML.git
   GIT_TAG 2.6.x
   GIT_SHALLOW ON
   EXCLUDE_FROM_ALL
   SYSTEM)
-FetchContent_MakeAvailable(SFML)
+fetchcontent_makeavailable(SFML)
 
-FetchContent_Declare(yaml-cpp
+fetchcontent_declare(yaml-cpp
   GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
   GIT_TAG yaml-cpp-0.7.0 # Can be a tag (yaml-cpp-x.x.x), a commit hash, or a branch name (master)
 )
-FetchContent_MakeAvailable(yaml-cpp)
+fetchcontent_makeavailable(yaml-cpp)
 
 add_library(collidables STATIC
-  src/Character.cpp
   src/CollisionEntity.cpp
+  src/Character.cpp
   src/Player.cpp
 )
 target_link_libraries(collidables PUBLIC yaml-cpp::yaml-cpp)
 target_link_libraries(collidables PRIVATE sfml-graphics)
 target_link_libraries(collidables PRIVATE sfml-audio)
+target_include_directories(collidables PRIVATE ../UI)
+target_link_libraries(collidables PRIVATE ui)
 target_compile_features(collidables PRIVATE cxx_std_17)
 
 if(WIN32)

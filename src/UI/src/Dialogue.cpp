@@ -13,6 +13,8 @@ Dialogue::Dialogue()
   drawnContent->setFont(*font);
   drawnContent->setLineSpacing(1.25);
   author->setFont(*font);
+  this->isMusicInit = true;
+  this->music->openFromFile("assets/sound/SND_TXT1.wav");
   this->dialogueBox = this->_createDialogueBox();
   this->drawnContent->setCharacterSize(25);
   this->author->setCharacterSize(20);
@@ -66,6 +68,8 @@ void Dialogue::setPortrait(std::string path)
 
 int Dialogue::draw(sf::RenderWindow *window, sf::Clock *clock)
 {
+  sf::View windowView = window->getView();
+  window->setView(window->getDefaultView());
   window->draw(*this->dialogueBox);
   if (this->author->getString().getSize() > 1)
   {
@@ -79,6 +83,7 @@ int Dialogue::draw(sf::RenderWindow *window, sf::Clock *clock)
   window->draw(*this->drawnContent);
   if (drawnContent->getString().getSize() == content.length())
   {
+    window->setView(windowView);
     return 1;
   }
   if (clock->getElapsedTime().asMilliseconds() > 50)
@@ -95,6 +100,7 @@ int Dialogue::draw(sf::RenderWindow *window, sf::Clock *clock)
     }
     clock->restart();
   }
+  window->setView(windowView);
   return 0;
 }
 
