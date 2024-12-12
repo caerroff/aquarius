@@ -15,6 +15,10 @@
 #define DEFAULT_FONT_PATH "assets/fonts/PressStart2P-Regular.ttf"
 #define DEFAULT_MAP_PATH "assets/maps/"
 
+struct Flags{
+  bool shouldSortEntities = false;
+};
+
 class Map
 {
 private:
@@ -31,8 +35,15 @@ private:
   const char *name;
   std::array<bool, sf::Keyboard::KeyCount> keyState;
   bool viewContains(sf::Vector2f position, sf::Vector2f size);
+  std::vector<CollisionEntity *> entities;
+
+  /**
+   * @brief Private method sorting the entities from smallest to highest y position
+   */
+  void _sortEntities();
 
 public:
+  Flags flags;
   Map(sf::RenderWindow *window);
   Map(sf::RenderWindow *window, sf::Vector2f _size);
   sf::Vector2f getSize() { return this->size; }
@@ -64,6 +75,8 @@ public:
 
   void setViewVelocity(sf::Vector2f velocity);
   sf::Vector2f getViewVelocity(){return this->viewVelocity;}
+
+  Flags getFlags(){return this->flags;}
 };
 
 Map *loadMapFromFile(std::string path, sf::RenderWindow *window);

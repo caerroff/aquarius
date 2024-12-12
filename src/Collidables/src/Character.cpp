@@ -22,11 +22,10 @@ void Character::update(sf::RenderWindow *window)
 {
     this->animate();
     this->setAnimation();
-    if(this->currentState == State::TALKING)
+    if(this->currentState == State::TALKING && this->currentDialogue)
     {
         this->currentDialogue->draw(window, &dialogueClock);
     }
-    window->draw(*this->body);
 }
 
 void Character::setFaceSprite(std::string _faceSpritePath)
