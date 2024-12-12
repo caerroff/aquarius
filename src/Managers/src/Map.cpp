@@ -17,6 +17,11 @@ Map::Map(sf::RenderWindow *window, sf::Vector2f _size) : Map(window)
 
 void Map::update(sf::RenderWindow *window)
 {
+  if (this->flags.shouldSortEntities)
+  {
+    // We should do the z-sort here
+    _sortEntities();
+  }
   view->move(viewVelocity);
   window->setView(*this->view);
 
@@ -44,9 +49,14 @@ void Map::update(sf::RenderWindow *window)
     this->characters.at(i)->update(window);
   }
 
-  if(!sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+  if (!sf::Keyboard::isKeyPressed(sf::Keyboard::E))
   {
     keyState[sf::Keyboard::E] = false;
+  }
+
+  if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+  {
+    keyState[sf::Keyboard::Space] = false;
   }
 
   this->player->update(window, characters);
@@ -59,6 +69,20 @@ void Map::update(sf::RenderWindow *window)
         keyState[sf::Keyboard::E] = true;
         // Call the dialogue of this character
         character->dialogue(window);
+        player->setCurrentState(State::TALKING);
+      }
+      if (!keyState[sf::Keyboard::E] && sf::Keyboard::isKeyPressed(sf::Keyboard::E) && character->getCurrentState() == State::TALKING)
+      {
+        keyState[sf::Keyboard::E] = true;
+        character->skipDialogue();
+        player->setCurrentState(State::AFK);
+      }
+
+      if (!keyState[sf::Keyboard::Space] && sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && character->getCurrentState() == State::TALKING)
+      {
+        keyState[sf::Keyboard::Space] = true;
+        character->skipDialogue();
+        player->setCurrentState(State::AFK);
       }
       character->getBody()->setFillColor(sf::Color::Red);
     }
@@ -67,6 +91,10 @@ void Map::update(sf::RenderWindow *window)
       character->getBody()->setFillColor(sf::Color::White);
       character->setCurrentState(State::AFK);
     }
+  }
+  for (auto entity : entities)
+  {
+    entity->render(window);
   }
   this->view->setCenter(window->getView().getCenter());
 }
@@ -165,7 +193,7 @@ Map *loadMapFromFile(std::string path, sf::RenderWindow *window)
   {
     std::cerr << e.what() << std::endl;
   }
-
+  map->flags.shouldSortEntities = true;
   return map;
 }
 
@@ -208,11 +236,32 @@ Character *Map::loadCharacterFromFile(YAML::Node node)
     Player *player = new Player(node["Name"].as<std::string>(), true);
     player->loadSprite(node["sprites"].as<std::string>());
     player->setPosition(sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
+    entities.push_back(player);
     return player;
   }
 
   Character *character = new Character();
   character->setPosition(sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
-
+  entities.push_back(character);
   return character;
+}
+
+void Map::_sortEntities()
+{
+  if (entities.size() < 2)
+  {
+    return;
+  }
+  for (int i = 0; i < entities.size() - 1; i++)
+  {
+    CollisionEntity *pt1 = entities.at(i);
+    for (int j = i + 1; j < entities.size(); j++)
+    {
+      CollisionEntity *pt2 = entities.at(j);
+      if (pt2->getPosition().y < pt1->getPosition().y)
+      {
+        std::swap(entities[i], entities[j]);
+      }
+    }
+  }
 }
