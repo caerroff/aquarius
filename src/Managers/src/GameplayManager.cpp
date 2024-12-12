@@ -196,7 +196,8 @@ void GameplayManager::loadMap(std::string _filePath, sf::RenderWindow *window)
   text.setCharacterSize(20);
   text.setPosition(sf::Vector2f(100, 100));
   text.setString("Loading");
-  while(! futureMap._Is_ready())
+  // while(! futureMap._Is_ready())
+  while(futureMap.wait_for(std::chrono::milliseconds(0)) != std::future_status::ready)
   {
     window->clear(sf::Color(25, 5, 0));
     window->draw(text);
