@@ -9,6 +9,7 @@ class Player : public Character
 
 private:
     int isBeingPlayed;
+    sf::Vector2f velocity;
 
 public:
     Player(std::string name, int _isBeingPlayed);
