@@ -9,7 +9,6 @@ class CollisionEntity
         sf::RectangleShape *body = new sf::RectangleShape();
         sf::Vector2f size;
         bool renderable;
-        sf::RectangleShape* body;
 
 
     public:

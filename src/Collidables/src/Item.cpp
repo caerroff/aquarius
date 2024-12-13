@@ -32,7 +32,6 @@ Item::Item(int id, sf::Vector2f position, sf::Texture *texture) : Item(id, posit
 void Item::update(sf::RenderWindow *window)
 {
     this->animate();
-    window->draw(*this->body);
 }
 
 void Item::animate()

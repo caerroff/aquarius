@@ -11,6 +11,7 @@ Map::Map(sf::RenderWindow *window)
   sf::Texture *texture = new sf::Texture();
   texture->loadFromFile(DEFAULT_SPRITE_PATH + std::string("Items/items.png"));
   this->items.push_back(new Item(0, sf::Vector2f(200, 200), texture));
+  this->entities.push_back(this->items.at(0));
 }
 
 Map::Map(sf::RenderWindow *window, sf::Vector2f _size) : Map(window)
@@ -120,6 +121,15 @@ void Map::update(sf::RenderWindow *window)
         std::vector<Item*>::iterator it = this->items.begin();
         std::advance(it, i);
         this->items.erase(it);
+        int pos = 0;
+        for(auto entity : entities)
+        {
+          if(entity == item)
+          {
+            entities.erase(entities.begin() + pos);
+          }
+          pos ++;
+        }
       }
     }
     else

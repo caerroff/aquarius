@@ -38,13 +38,6 @@ private:
   std::vector<Tile *> tiles;
   std::vector<Action *> actions;
   std::vector<Item *> items;
-  std::string musicPath;
-  sf::Color clearColor;
-  Map *nextMap;
-  Player* player;
-  const char *name;
-  std::array<bool, sf::Keyboard::KeyCount> keyState;
-  bool viewContains(sf::Vector2f position, sf::Vector2f size);
   std::vector<CollisionEntity *> entities;
 
   /**
@@ -54,7 +47,7 @@ private:
 
   // Misc
   std::array<bool, sf::Keyboard::KeyCount> keyState;
-  Player *player;
+  Player* player;
   
 public:
   // Constructors
@@ -109,7 +102,6 @@ public:
   void setClearColor(sf::Color _clearColor) { this->clearColor = _clearColor; }
   void setPlayer(Player *player) { this->player = player; }
   void setViewVelocity(sf::Vector2f velocity);
-  sf::Vector2f getViewVelocity(){return this->viewVelocity;}
 
   Flags getFlags(){return this->flags;}
 };
