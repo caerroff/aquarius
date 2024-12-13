@@ -40,7 +40,7 @@ protected:
     sf::Texture *spriteSheet;
     sf::Vector2f velocity;
     State currentState = State::AFK;
-    Dialogue* currentDialogue;
+    Dialogue* currentDialogue = nullptr;
 
 public:
     Character();

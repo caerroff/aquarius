@@ -7,10 +7,13 @@
 #include <yaml-cpp/yaml.h>
 #include "Managers/include/Managers.hpp"
 
-void handleKeys(sf::Keyboard::Key key, sf::RenderWindow *window);
+void handleKeys(sf::RenderWindow *window);
+
+std::array<bool, sf::Keyboard::KeyCount> keyState;
 
 int main(void)
 {
+    keyState.fill(false);
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Aquarius", sf::Style::Titlebar | sf::Style::Close);
     sf::Image *icon = new sf::Image();
     icon->loadFromFile("assets/icon.png");
@@ -28,6 +31,7 @@ int main(void)
     SceneManager::getSceneManager().loadScene("opening.yaml", window);
     while (window->isOpen())
     {
+        handleKeys(window);
         window->clear(sf::Color::Black);
         if (SceneManager::getSceneManager().getCurrentMode() == SCENE_CODE)
         {
@@ -49,17 +53,23 @@ int main(void)
     return 0;
 }
 
-void handleKeys(sf::Keyboard::Key key, sf::RenderWindow *window)
+void handleKeys(sf::RenderWindow *window)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+    if(!sf::Keyboard::isKeyPressed(sf::Keyboard::R))
     {
+        keyState[sf::Keyboard::R] = false;
+    }
+
+    if (!keyState[sf::Keyboard::R] && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+    {
+        keyState[sf::Keyboard::R] = true;
         if (window->getSize().x == 1280)
         {
-            window->setSize(sf::Vector2u(1920, 1080));
+            window->setSize(sf::Vector2u(1600, 900));
         }
-        else if (window->getSize().x == 1920)
+        else if (window->getSize().x == 1600)
         {
-            window->setSize(sf::Vector2u(2400, 1350));
+            window->setSize(sf::Vector2u(1920, 1080));
         }
         else
         {
