@@ -99,7 +99,6 @@ void Map::update(sf::RenderWindow *window)
   {
     if (viewContains(entity->getPosition(), entity->getSize()))
     {
-      std::cout << entity->getPosition().x << std::endl;
       entity->render(window);
     }
   }
