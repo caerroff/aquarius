@@ -46,6 +46,8 @@ public:
 
   int draw(sf::RenderWindow* window, sf::Clock *clock);
   int drawEntirely(sf::RenderWindow* window);
+
+  std::string getContent(){return this->content;}
 };
 
 #endif
