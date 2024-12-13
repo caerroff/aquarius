@@ -47,24 +47,27 @@ void Player::update(sf::RenderWindow *window, std::vector<Character *> character
         velocity.y--;
     if (velocity.y < 0)
         velocity.y++;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    if (this->getCurrentState() != State::TALKING)
     {
-        this->velocity = sf::Vector2f(velocity.x, 6);
-    }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+        {
+            this->velocity = sf::Vector2f(velocity.x, 6);
+        }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-    {
-        this->velocity = sf::Vector2f(velocity.x, -6);
-    }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+        {
+            this->velocity = sf::Vector2f(velocity.x, -6);
+        }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-    {
-        this->velocity = sf::Vector2f(-6, velocity.y);
-    }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+        {
+            this->velocity = sf::Vector2f(-6, velocity.y);
+        }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-    {
-        this->velocity = sf::Vector2f(6, velocity.y);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+        {
+            this->velocity = sf::Vector2f(6, velocity.y);
+        }
     }
     Character::update(window);
 }

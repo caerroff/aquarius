@@ -81,7 +81,6 @@ void GameplayManager::update(sf::RenderWindow *window)
 
   window->clear(map->getClearColor());
   map->update(window);
-
   window->setView(window->getDefaultView());
 #ifdef DEBUG
   sf::Time elapsedTime = chrono.getElapsedTime();
@@ -187,8 +186,24 @@ int GameplayManager::switchNextMap()
 
 void GameplayManager::loadMap(std::string _filePath, sf::RenderWindow *window)
 {
-  window->clear(sf::Color::Blue);
-  window->display();
   this->currentMapPath = _filePath;
-  this->map = loadMapFromFile(DEFAULT_MAP_PATH + _filePath, window);
+  std::future<Map*> futureMap = std::async(&loadMapFromFile, DEFAULT_MAP_PATH + _filePath, window);  
+  sf::Text text;
+  sf::Font font;
+  font.loadFromFile(DEFAULT_FONT_PATH);
+  text.setFont(font);
+  text.setFillColor(sf::Color::White);
+  text.setCharacterSize(20);
+  text.setPosition(sf::Vector2f(100, 100));
+  text.setString("Loading");
+  // while(! futureMap._Is_ready())
+  while(futureMap.wait_for(std::chrono::milliseconds(0)) != std::future_status::ready)
+  {
+    window->clear(sf::Color(25, 5, 0));
+    window->draw(text);
+    text.setString(text.getString() + ".");
+    window->display();
+    std::this_thread::sleep_for(std::chrono::milliseconds(30));
+  }
+  this->map = futureMap.get();
 }

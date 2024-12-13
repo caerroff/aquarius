@@ -34,14 +34,13 @@ private:
 
 protected:
     std::string spritePath;
-    sf::RectangleShape *body;
     sf::Clock animationClock = sf::Clock();
     sf::Clock dialogueClock = sf::Clock();
     AnimationInfos animationInfos = AnimationInfos();
     sf::Texture *spriteSheet;
     sf::Vector2f velocity;
     State currentState = State::AFK;
-    Dialogue* currentDialogue;
+    Dialogue* currentDialogue = nullptr;
 
 public:
     Character();
@@ -71,6 +70,8 @@ public:
      * @param window A pointer to the window we want to display the dialogue to.
      */
     void dialogue(sf::RenderWindow *window);
+
+    void skipDialogue(){this->currentDialogue = nullptr; currentState = State::AFK;}
 
     /**
      * @brief Handles the animation of the Character

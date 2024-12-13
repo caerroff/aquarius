@@ -9,6 +9,8 @@ class CollisionEntity
         sf::RectangleShape *body = new sf::RectangleShape();
         sf::Vector2f size;
         bool renderable;
+        sf::RectangleShape* body;
+
 
     public:
         virtual bool isRenderable(){return this->renderable;}
@@ -18,6 +20,8 @@ class CollisionEntity
         void setSize(sf::Vector2f size){this->size = size;}
 
         sf::RectangleShape *getBody(){return this->body;}
+        sf::Vector2f getPosition(){return this->body->getPosition();}
+        void render(sf::RenderWindow* window){window->draw(*this->body);}
 };
 
 
