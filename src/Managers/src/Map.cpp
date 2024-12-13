@@ -59,9 +59,12 @@ void Map::update(sf::RenderWindow *window)
     keyState[sf::Keyboard::Space] = false;
   }
 
-  this->player->update(window, characters);
   for (auto character : characters)
   {
+    if(!viewContains(character->getPosition(), character->getSize()))
+    {
+      continue;
+    }
     if (character->getBody()->getGlobalBounds().intersects(this->player->getBody()->getGlobalBounds()))
     {
       if (!keyState[sf::Keyboard::E] && sf::Keyboard::isKeyPressed(sf::Keyboard::E) && character->getCurrentState() != State::TALKING)
@@ -89,12 +92,15 @@ void Map::update(sf::RenderWindow *window)
     else
     {
       character->getBody()->setFillColor(sf::Color::White);
-      character->setCurrentState(State::AFK);
     }
   }
+  this->player->update(window, characters);
   for (auto entity : entities)
   {
-    entity->render(window);
+    if (viewContains(entity->getPosition(), entity->getSize()))
+    {
+      entity->render(window);
+    }
   }
   this->view->setCenter(window->getView().getCenter());
 }

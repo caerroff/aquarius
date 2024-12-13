@@ -6,6 +6,7 @@ Character::Character()
     this->body = new sf::RectangleShape(sf::Vector2f(64, 64));
     this->body->setFillColor(sf::Color::White);
     this->body->setOrigin(sf::Vector2f(32, 32));
+    this->currentState = State::AFK;
 }
 
 Character::Character(std::string _name) : Character()
@@ -22,7 +23,7 @@ void Character::update(sf::RenderWindow *window)
 {
     this->animate();
     this->setAnimation();
-    if(this->currentState == State::TALKING && this->currentDialogue)
+    if (this->currentState == State::TALKING && this->currentDialogue != nullptr)
     {
         this->currentDialogue->draw(window, &dialogueClock);
     }
@@ -57,7 +58,7 @@ void Character::loadSprite(std::string path, sf::Vector2i size)
 
 void Character::animate()
 {
-    if(animationInfos.lastRow != animationInfos.currentRow)
+    if (animationInfos.lastRow != animationInfos.currentRow)
     {
         animationInfos.currentColumn = 0;
     }
