@@ -2,15 +2,13 @@
 
 Player::Player(std::string name, int _isBeingPlayed) : Character(name)
 {
+    keyState.fill(false);
     this->isBeingPlayed = _isBeingPlayed;
     this->getBody()->setFillColor(sf::Color::Red);
 }
 
 void Player::update(sf::RenderWindow *window, std::vector<Character *> characters)
 {
-    // 6 = a^2 + b^2
-    // 5*sqrt(2)
-    // 72 = 6^2 + 6^2
     if (velocity.x && velocity.y)
     {
         if (abs(velocity.x) > 5 * sqrt(2))
@@ -47,7 +45,26 @@ void Player::update(sf::RenderWindow *window, std::vector<Character *> character
         velocity.y--;
     if (velocity.y < 0)
         velocity.y++;
-    if (this->getCurrentState() != State::TALKING)
+
+    if(!sf::Keyboard::isKeyPressed(sf::Keyboard::I))
+    {
+        keyState[sf::Keyboard::I] = false;
+    }
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::I) && ! keyState[sf::Keyboard::I])
+    {
+        keyState[sf::Keyboard::I] = true;
+        if(currentState != State::INVENTORY_STATE)
+        {
+        this->currentState = State::INVENTORY_STATE;
+        }
+        else
+        {
+            this->currentState = State::AFK;
+        }
+    }
+
+    if (this->getCurrentState() == State::AFK)
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         {

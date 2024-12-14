@@ -22,6 +22,8 @@ struct AnimationInfos
 enum State {
     AFK,
     TALKING,
+    INVENTORY_STATE,
+    MENU_STATE
 };
 
 class Character : public CollisionEntity

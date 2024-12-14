@@ -16,6 +16,7 @@ private:
     sf::Vector2f position;
     sf::Texture *texture;
     AnimationDirection animationDirection = AnimationDirection::UP;
+    std::string name;
 
 public:
     // Constructors
@@ -26,6 +27,11 @@ public:
 
     void update(sf::RenderWindow *window);
     void animate();
+
+    void setName(std::string name) { this->name = name; }
+    std::string getName() { return this->name; }
+
+    int getId() { return this->id ;}
 };
 
 #endif

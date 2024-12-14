@@ -10,8 +10,13 @@ Map::Map(sf::RenderWindow *window)
   keyState.fill(false);
   sf::Texture *texture = new sf::Texture();
   texture->loadFromFile(DEFAULT_SPRITE_PATH + std::string("Items/items.png"));
-  this->items.push_back(new Item(0, sf::Vector2f(200, 200), texture));
-  this->entities.push_back(this->items.at(0));
+  for (int i = 0; i < 10; i++)
+  {
+    Item *item = new Item(0, sf::Vector2f(300 + i*100, 300), texture);
+    item->setName("Stick " + std::to_string(i + 1));
+    this->items.push_back(item);
+    this->entities.push_back(this->items.at(i));
+  }
 }
 
 Map::Map(sf::RenderWindow *window, sf::Vector2f _size) : Map(window)
@@ -65,7 +70,7 @@ void Map::update(sf::RenderWindow *window)
 
   for (auto character : characters)
   {
-    if(!viewContains(character->getPosition(), character->getSize()))
+    if (!viewContains(character->getPosition(), character->getSize()))
     {
       continue;
     }
@@ -107,28 +112,28 @@ void Map::update(sf::RenderWindow *window)
     }
   }
 
-  for (int i = 0; i < this->items.size(); i ++)
+  for (int i = 0; i < this->items.size(); i++)
   {
-    Item* item = this->items.at(i);
+    Item *item = this->items.at(i);
     item->update(window);
     if (item->getBody()->getGlobalBounds().intersects(this->player->getBody()->getGlobalBounds()))
     {
       item->getBody()->setFillColor(sf::Color(125, 125, 125));
-      if(!keyState[sf::Keyboard::E] && sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+      if (!keyState[sf::Keyboard::E] && sf::Keyboard::isKeyPressed(sf::Keyboard::E))
       {
         keyState[sf::Keyboard::E] = true;
         this->player->addItemToInventory(item);
-        std::vector<Item*>::iterator it = this->items.begin();
+        std::vector<Item *>::iterator it = this->items.begin();
         std::advance(it, i);
         this->items.erase(it);
         int pos = 0;
-        for(auto entity : entities)
+        for (auto entity : entities)
         {
-          if(entity == item)
+          if (entity == item)
           {
             entities.erase(entities.begin() + pos);
           }
-          pos ++;
+          pos++;
         }
       }
     }

@@ -11,6 +11,7 @@ class Player : public Character
 private:
     int isBeingPlayed;
     std::vector<Item *> items;
+    std::array<bool, sf::Keyboard::KeyCount> keyState;
 
 public:
     Player(std::string name, int _isBeingPlayed);
