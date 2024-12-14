@@ -7,7 +7,7 @@
  A game about the Aquarius album from Haken.
 
 ## Gameplay
-The gameplay will be pretty basic. We follow the story of the girl blessed by the curse. The game follows the album's story (as musch as possible) and tries to tell the story in a different media, while still keeping the essential in.
+The gameplay will be pretty basic. We follow the story of the girl blessed by the curse. The game follows the album's story (as much as possible) and tries to tell the story in a different media, while still keeping the essential in.
 - Scenes (kinda like cinematics but in a 2D game)
 - Exploration gameplay 
 - Dialogues
