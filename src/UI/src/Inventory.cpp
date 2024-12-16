@@ -12,7 +12,7 @@ Inventory::Inventory(sf::RenderWindow *window)
     selector->setPoint(1, sf::Vector2f(20, 10));
     selector->setPoint(2, sf::Vector2f(0, 20));
     selector->setFillColor(sf::Color::White);
-    selector->setPosition(sf::Vector2f(virtualWindow->getPosition().x + 10, virtualWindow->getPosition().y + 23 / 2));
+    selector->setPosition(sf::Vector2f(virtualWindow->getPosition().x + 10, (virtualWindow->getPosition().y + 23 / 2) + 10));
 }
 
 Inventory::Inventory(Player *player, sf::RenderWindow *window) : Inventory(window)
