@@ -23,6 +23,7 @@ add_library(collidables STATIC
   src/CollisionEntity.cpp
   src/Character.cpp
   src/Player.cpp
+  src/Item.cpp
 )
 target_link_libraries(collidables PUBLIC yaml-cpp::yaml-cpp)
 target_link_libraries(collidables PRIVATE sfml-graphics)

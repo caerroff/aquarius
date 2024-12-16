@@ -16,3 +16,6 @@ debug:
 	cmake -DDebug=ON -B build
 	cmake --build build -j8
 	./build/bin/aquarius
+
+countLine:
+	wc -l `find src/ -name "*pp"`
