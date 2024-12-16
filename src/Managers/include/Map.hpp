@@ -70,6 +70,13 @@ public:
    */
   Character *loadCharacterFromFile(YAML::Node node);
 
+  /**
+   * @brief loads an Item from a YAML node using yaml-cpp
+   * @param node The node (yaml-cpp object) containing all informations about the item
+   * @return A pointer to the loaded Item object.
+   */
+  Item *loadItemFromFile(YAML::Node node);
+
   // Getters
   sf::Vector2f getSize() { return this->size; }
   Character *getCharacterAt(int position);

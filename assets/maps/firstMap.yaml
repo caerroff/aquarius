@@ -13,6 +13,11 @@ Characters:
   - Name: "Woman"
     x: 100
     y: 0
+Items:
+  - Name: "Debug Stick"
+    id: 1
+    x: 200
+    y: 200
 Tiles:
   - id: 0
     x: 0

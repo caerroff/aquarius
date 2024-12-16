@@ -31,7 +31,10 @@ public:
     void setName(std::string name) { this->name = name; }
     std::string getName() { return this->name; }
 
-    int getId() { return this->id ;}
+    sf::Vector2f getPosition() { return this->body->getPosition(); }
+    void setPosition(sf::Vector2f position);
+
+    int getId() { return this->id; }
 };
 
 #endif

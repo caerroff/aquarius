@@ -8,15 +8,6 @@ Map::Map(sf::RenderWindow *window)
   this->view->setCenter(sf::Vector2f(0, 0));
   this->view->setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
   keyState.fill(false);
-  sf::Texture *texture = new sf::Texture();
-  texture->loadFromFile(DEFAULT_SPRITE_PATH + std::string("Items/items.png"));
-  for (int i = 0; i < 10; i++)
-  {
-    Item *item = new Item(0, sf::Vector2f(300 + i*100, 300), texture);
-    item->setName("Stick " + std::to_string(i + 1));
-    this->items.push_back(item);
-    this->entities.push_back(this->items.at(i));
-  }
 }
 
 Map::Map(sf::RenderWindow *window, sf::Vector2f _size) : Map(window)
@@ -221,6 +212,15 @@ Map *loadMapFromFile(std::string path, sf::RenderWindow *window)
       }
     }
 
+    if (mapFile["Items"].IsDefined())
+    {
+      for (YAML::Node itemNode : mapFile["Items"])
+      {
+        Item *item = map->loadItemFromFile(itemNode);
+        map->addItem(item);
+      }
+    }
+
     for (auto tileNode : mapFile["Tiles"])
     {
       Tile *tile = loadTileFromFile(tileNode);
@@ -290,6 +290,15 @@ Character *Map::loadCharacterFromFile(YAML::Node node)
   character->setPosition(sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
   entities.push_back(character);
   return character;
+}
+
+Item *Map::loadItemFromFile(YAML::Node node)
+{
+  Item *loadedItem = new Item(node["id"].as<int>());
+  loadedItem->setName(node["Name"].as<std::string>());
+  loadedItem->setPosition(sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
+  entities.push_back(loadedItem);
+  return loadedItem;
 }
 
 void Map::_sortEntities()
