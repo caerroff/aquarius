@@ -22,6 +22,7 @@ FetchContent_MakeAvailable(yaml-cpp)
 add_library(ui STATIC
   src/Button.cpp
   src/Dialogue.cpp
+  src/Inventory.cpp
 )
 add_compile_definitions(-DDEBUG=1)
 

@@ -33,6 +33,8 @@ private:
   sf::RenderWindow *window = (sf::RenderWindow*) malloc(sizeof(sf::RenderWindow));
   Map *map;
 
+  Inventory *inventory = nullptr;
+
   void check_camera();
 
 public:

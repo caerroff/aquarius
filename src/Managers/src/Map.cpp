@@ -61,7 +61,7 @@ void Map::update(sf::RenderWindow *window)
 
   for (auto character : characters)
   {
-    if(!viewContains(character->getPosition(), character->getSize()))
+    if (!viewContains(character->getPosition(), character->getSize()))
     {
       continue;
     }
@@ -100,6 +100,37 @@ void Map::update(sf::RenderWindow *window)
     if (viewContains(entity->getPosition(), entity->getSize()))
     {
       entity->render(window);
+    }
+  }
+
+  for (int i = 0; i < this->items.size(); i++)
+  {
+    Item *item = this->items.at(i);
+    item->update(window);
+    if (item->getBody()->getGlobalBounds().intersects(this->player->getBody()->getGlobalBounds()))
+    {
+      item->getBody()->setFillColor(sf::Color(125, 125, 125));
+      if (!keyState[sf::Keyboard::E] && sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+      {
+        keyState[sf::Keyboard::E] = true;
+        this->player->addItemToInventory(item);
+        std::vector<Item *>::iterator it = this->items.begin();
+        std::advance(it, i);
+        this->items.erase(it);
+        int pos = 0;
+        for (auto entity : entities)
+        {
+          if (entity == item)
+          {
+            entities.erase(entities.begin() + pos);
+          }
+          pos++;
+        }
+      }
+    }
+    else
+    {
+      item->getBody()->setFillColor(sf::Color::White);
     }
   }
   this->view->setCenter(window->getView().getCenter());
@@ -181,6 +212,15 @@ Map *loadMapFromFile(std::string path, sf::RenderWindow *window)
       }
     }
 
+    if (mapFile["Items"].IsDefined())
+    {
+      for (YAML::Node itemNode : mapFile["Items"])
+      {
+        Item *item = map->loadItemFromFile(itemNode);
+        map->addItem(item);
+      }
+    }
+
     for (auto tileNode : mapFile["Tiles"])
     {
       Tile *tile = loadTileFromFile(tileNode);
@@ -246,10 +286,19 @@ Character *Map::loadCharacterFromFile(YAML::Node node)
     return player;
   }
 
-  Character *character = new Character();
+  Character *character = new Character(node["Name"].as<std::string>());
   character->setPosition(sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
   entities.push_back(character);
   return character;
+}
+
+Item *Map::loadItemFromFile(YAML::Node node)
+{
+  Item *loadedItem = new Item(node["id"].as<int>());
+  loadedItem->setName(node["Name"].as<std::string>());
+  loadedItem->setPosition(sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
+  entities.push_back(loadedItem);
+  return loadedItem;
 }
 
 void Map::_sortEntities()

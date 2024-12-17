@@ -5,10 +5,10 @@
 class CollisionEntity
 {
     protected:
-        sf::RectangleShape hitbox;
+        sf::RectangleShape *hitbox = new sf::RectangleShape();
+        sf::RectangleShape *body = new sf::RectangleShape();
         sf::Vector2f size;
         bool renderable;
-        sf::RectangleShape* body;
 
 
     public:
@@ -17,6 +17,8 @@ class CollisionEntity
         sf::Vector2f getSize(){return this->size;}
         void setSize(int x, int y){this->size = sf::Vector2f(x, y);}
         void setSize(sf::Vector2f size){this->size = size;}
+
+        sf::RectangleShape *getBody(){return this->body;}
         sf::Vector2f getPosition(){return this->body->getPosition();}
         void render(sf::RenderWindow* window){window->draw(*this->body);}
 };
