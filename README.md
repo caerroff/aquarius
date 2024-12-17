@@ -14,6 +14,22 @@ The game has a few dependencies:
 
 And some dependencies are installed when building the project with CMake (sfml and yaml-cpp for now), thus having an internet when building the project is required.
 
+To build an executable from source on your machine, a Makefile has been created to store the useful commands:
+- To create a `Release` version of the game, you can simply run the following command at the root of the project
+```
+make
+```
+
+- To create a `Debug` version of the game, you can use
+```
+make debug
+```
+
+In both cases, the executable will be created in the following directory:
+`/build/bin/aquarius`
+*OR* on Windows
+`/build/bin/Release/aquarius.exe`
+
 ## C++ Standards
 The game uses cxx_std_17 standards
 
