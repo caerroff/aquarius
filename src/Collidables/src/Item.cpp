@@ -17,9 +17,7 @@ Item::Item()
 Item::Item(int id) : Item()
 {
     this->id = id;
-    std::cout << "Top " <<  (int) (((this->id - 1) * 64) / this->texture->getSize().x) <<  std::endl;
-    std::cout << "Left " << (this->id - 1) * 64 << std::endl;
-    this->body->setTextureRect(sf::IntRect(sf::Vector2i((this->id - 1) * 64, (int) (((this->id - 1) * 64) / this->texture->getSize().x)), sf::Vector2i(64, 64)));
+    this->body->setTextureRect(sf::IntRect(sf::Vector2i((this->id - 1) * 64, (int)(((this->id - 1) * 64) / this->texture->getSize().x)), sf::Vector2i(64, 64)));
 }
 
 Item::Item(int id, sf::Vector2f position) : Item(id)

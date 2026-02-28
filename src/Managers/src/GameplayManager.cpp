@@ -84,16 +84,16 @@ void GameplayManager::update(sf::RenderWindow *window)
   window->setView(window->getDefaultView());
   if (map->getPlayer()->getCurrentState() == State::INVENTORY_STATE)
   {
-    if(!this->inventory)
+    if (!this->inventory)
     {
       this->inventory = new Inventory(this->map->getPlayer(), window);
     }
     inventory->update();
     inventory->render();
   }
-  else 
+  else
   {
-    if(this->inventory)
+    if (this->inventory)
     {
       free(this->inventory);
       this->inventory = nullptr;
@@ -214,13 +214,13 @@ void GameplayManager::loadMap(std::string _filePath, sf::RenderWindow *window)
   text.setPosition(sf::Vector2f(100, 100));
   text.setString("Loading");
   // while(! futureMap._Is_ready())
-  while (futureMap.wait_for(std::chrono::milliseconds(0)) != std::future_status::ready)
+  while (futureMap.wait_for(std::chrono::milliseconds(1)) != std::future_status::ready)
   {
     window->clear(sf::Color(25, 5, 0));
     window->draw(text);
     text.setString(text.getString() + ".");
     window->display();
-    std::this_thread::sleep_for(std::chrono::milliseconds(30));
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
   }
   this->map = futureMap.get();
 }
