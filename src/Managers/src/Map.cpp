@@ -1,7 +1,6 @@
 #include "../include/Map.hpp"
 
-Map::Map(sf::RenderWindow *window)
-{
+Map::Map(sf::RenderWindow *window) {
   this->size = sf::Vector2f(0, 0);
   this->clearColor = sf::Color(255, 255, 255);
   this->view = new sf::View();
@@ -10,15 +9,12 @@ Map::Map(sf::RenderWindow *window)
   keyState.fill(false);
 }
 
-Map::Map(sf::RenderWindow *window, sf::Vector2f _size) : Map(window)
-{
+Map::Map(sf::RenderWindow *window, sf::Vector2f _size) : Map(window) {
   this->size = _size;
 }
 
-void Map::update(sf::RenderWindow *window)
-{
-  if (this->flags.shouldSortEntities)
-  {
+void Map::update(sf::RenderWindow *window) {
+  if (this->flags.shouldSortEntities) {
     // We should do the z-sort here
     _sortEntities();
   }
@@ -37,284 +33,236 @@ void Map::update(sf::RenderWindow *window)
   if (viewVelocity.y < 0)
     viewVelocity.y++;
 
-  for (int i = 0; i < this->tiles.size(); i++)
-  {
-    if (viewContains(this->tiles.at(i)->getPosition(), this->tiles.at(i)->getSize()))
-    {
+  for (int i = 0; i < this->tiles.size(); i++) {
+    if (viewContains(this->tiles.at(i)->getPosition(),
+                     this->tiles.at(i)->getSize())) {
+
       this->tiles.at(i)->update(window);
     }
   }
-  for (int i = 0; i < this->characters.size(); i++)
-  {
+
+  for (int i = 0; i < this->characters.size(); i++) {
     this->characters.at(i)->update(window);
   }
 
-  if (!sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-  {
+  if (!sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
     keyState[sf::Keyboard::E] = false;
   }
 
-  if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-  {
+  if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
     keyState[sf::Keyboard::Space] = false;
   }
 
-  for (auto character : characters)
-  {
-    if (!viewContains(character->getPosition(), character->getSize()))
-    {
+  for (auto character : characters) {
+    if (!viewContains(character->getPosition(), character->getSize())) {
       continue;
     }
-    if (character->getBody()->getGlobalBounds().intersects(this->player->getBody()->getGlobalBounds()))
-    {
-      if (!keyState[sf::Keyboard::E] && sf::Keyboard::isKeyPressed(sf::Keyboard::E) && character->getCurrentState() != State::TALKING)
-      {
+    if (character->getBody()->getGlobalBounds().intersects(
+            this->player->getBody()->getGlobalBounds())) {
+      if (!keyState[sf::Keyboard::E] &&
+          sf::Keyboard::isKeyPressed(sf::Keyboard::E) &&
+          character->getCurrentState() != State::TALKING) {
         keyState[sf::Keyboard::E] = true;
         // Call the dialogue of this character
         character->dialogue(window);
         player->setCurrentState(State::TALKING);
       }
-      if (!keyState[sf::Keyboard::E] && sf::Keyboard::isKeyPressed(sf::Keyboard::E) && character->getCurrentState() == State::TALKING)
-      {
+      if (!keyState[sf::Keyboard::E] &&
+          sf::Keyboard::isKeyPressed(sf::Keyboard::E) &&
+          character->getCurrentState() == State::TALKING) {
         keyState[sf::Keyboard::E] = true;
         character->skipDialogue();
         player->setCurrentState(State::AFK);
       }
 
-      if (!keyState[sf::Keyboard::Space] && sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && character->getCurrentState() == State::TALKING)
-      {
+      if (!keyState[sf::Keyboard::Space] &&
+          sf::Keyboard::isKeyPressed(sf::Keyboard::Space) &&
+          character->getCurrentState() == State::TALKING) {
         keyState[sf::Keyboard::Space] = true;
         character->skipDialogue();
         player->setCurrentState(State::AFK);
       }
       character->getBody()->setFillColor(sf::Color::Red);
-    }
-    else
-    {
+    } else {
       character->getBody()->setFillColor(sf::Color::White);
     }
   }
   this->player->update(window, characters);
-  for (auto entity : entities)
-  {
-    if (viewContains(entity->getPosition(), entity->getSize()))
-    {
+  for (auto entity : entities) {
+    if (viewContains(entity->getPosition(), entity->getSize())) {
       entity->render(window);
     }
   }
 
-  for (int i = 0; i < this->items.size(); i++)
-  {
+  for (int i = 0; i < this->items.size(); i++) {
     Item *item = this->items.at(i);
     item->update(window);
-    if (item->getBody()->getGlobalBounds().intersects(this->player->getBody()->getGlobalBounds()))
-    {
+    if (item->getBody()->getGlobalBounds().intersects(
+            this->player->getBody()->getGlobalBounds())) {
       item->getBody()->setFillColor(sf::Color(125, 125, 125));
-      if (!keyState[sf::Keyboard::E] && sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-      {
+      if (!keyState[sf::Keyboard::E] &&
+          sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
         keyState[sf::Keyboard::E] = true;
         this->player->addItemToInventory(item);
         std::vector<Item *>::iterator it = this->items.begin();
         std::advance(it, i);
         this->items.erase(it);
         int pos = 0;
-        for (auto entity : entities)
-        {
-          if (entity == item)
-          {
+        for (auto entity : entities) {
+          if (entity == item) {
             entities.erase(entities.begin() + pos);
           }
           pos++;
         }
       }
-    }
-    else
-    {
+    } else {
       item->getBody()->setFillColor(sf::Color::White);
     }
   }
   this->view->setCenter(window->getView().getCenter());
 }
 
-void Map::addCharacter(Character *character)
-{
+void Map::addCharacter(Character *character) {
   this->characters.push_back(character);
 }
 
-void Map::removeCharacterAt(int position)
-{
+void Map::removeCharacterAt(int position) {
   this->characters.erase(this->characters.begin() + position);
 }
 
-Character *Map::getCharacterAt(int position)
-{
+Character *Map::getCharacterAt(int position) {
   return this->characters.at(position);
 }
 
-void Map::addTile(Tile *tile)
-{
-  this->tiles.push_back(tile);
-}
+void Map::addTile(Tile *tile) { this->tiles.push_back(tile); }
 
-void Map::removeTileAt(int position)
-{
+void Map::removeTileAt(int position) {
   this->tiles.erase(this->tiles.begin() + position);
 }
 
-Tile *Map::getTileAt(int position)
-{
-  return this->tiles.at(position);
-}
+Tile *Map::getTileAt(int position) { return this->tiles.at(position); }
 
-Action *Map::getActionAt(int pos)
-{
-  return this->actions.at(pos);
-}
+Action *Map::getActionAt(int pos) { return this->actions.at(pos); }
 
-void Map::addAction(Action *action)
-{
-  this->actions.push_back(action);
-}
+void Map::addAction(Action *action) { this->actions.push_back(action); }
 
-Map *loadMapFromFile(std::string path, sf::RenderWindow *window)
-{
+Map *loadMapFromFile(std::string path, sf::RenderWindow *window) {
   Map *map = new Map(window);
-  try
-  {
+  try {
     YAML::Node mapFile = YAML::LoadFile(path);
 
-    if (mapFile["Background"].IsSequence() && mapFile["Background"].size() == 3)
-    {
+    if (mapFile["Background"].IsSequence() &&
+        mapFile["Background"].size() == 3) {
       std::vector<int> color = mapFile["Background"].as<std::vector<int>>();
       map->setClearColor(sf::Color(color.at(0), color.at(1), color.at(2)));
     }
 
-    if (mapFile["Music"].IsDefined())
-    {
-      map->setMusicPath(DEFAULT_MUSIC_PATH + mapFile["Music"].as<std::string>());
+    if (mapFile["Music"].IsDefined()) {
+      map->setMusicPath(DEFAULT_MUSIC_PATH +
+                        mapFile["Music"].as<std::string>());
     }
 
-    if (mapFile["Characters"].IsDefined())
-    {
-      for (YAML::Node characterNode : mapFile["Characters"])
-      {
+    if (mapFile["Characters"].IsDefined()) {
+      for (YAML::Node characterNode : mapFile["Characters"]) {
         Character *character = map->loadCharacterFromFile(characterNode);
-        if (dynamic_cast<Player *>(character) != nullptr)
-        {
+        if (dynamic_cast<Player *>(character) != nullptr) {
           // We know we have a player object
           map->setPlayer(dynamic_cast<Player *>(character));
-        }
-        else
-        {
+        } else {
           // We don't have a player, so we must be having a character
           map->addCharacter(character);
         }
       }
     }
 
-    if (mapFile["Items"].IsDefined())
-    {
-      for (YAML::Node itemNode : mapFile["Items"])
-      {
+    if (mapFile["Items"].IsDefined()) {
+      for (YAML::Node itemNode : mapFile["Items"]) {
         Item *item = map->loadItemFromFile(itemNode);
         map->addItem(item);
       }
     }
 
-    for (auto tileNode : mapFile["Tiles"])
-    {
+    for (auto tileNode : mapFile["Tiles"]) {
       Tile *tile = loadTileFromFile(tileNode);
       map->addTile(tile);
     }
-  }
-  catch (YAML::BadConversion e)
-  {
+  } catch (YAML::BadConversion e) {
+    std::cerr << "Bad Conversion: ";
     std::cerr << e.what() << std::endl;
-  }
-  catch (YAML::BadFile e)
-  {
+  } catch (YAML::BadFile e) {
+    std::cerr << "Bad File: ";
     std::cerr << e.what() << std::endl;
-  }
-  catch (std::exception e)
-  {
+  } catch (std::exception e) {
+    std::cerr << "Standard Exception: ";
     std::cerr << e.what() << std::endl;
   }
   map->flags.shouldSortEntities = true;
   return map;
 }
 
-bool Map::viewContains(sf::Vector2f position, sf::Vector2f size)
-{
-  if (position.x < view->getCenter().x - view->getSize().x / 2 - (size.x + 50))
-  {
+bool Map::viewContains(sf::Vector2f position, sf::Vector2f size) {
+  if (position.x <
+      view->getCenter().x - view->getSize().x / 2 - (size.x + 50)) {
     return false;
   }
 
-  if (position.x > view->getCenter().x + view->getSize().x / 2 + 50)
-  {
+  if (position.x > view->getCenter().x + view->getSize().x / 2 + 50) {
     return false;
   }
 
-  if (position.y < view->getCenter().y - view->getSize().y / 2 - (size.y + 50))
-  {
+  if (position.y <
+      view->getCenter().y - view->getSize().y / 2 - (size.y + 50)) {
     return false;
   }
 
-  if (position.y > view->getCenter().y + view->getSize().y / 2 + 50)
-  {
+  if (position.y > view->getCenter().y + view->getSize().y / 2 + 50) {
     return false;
   }
 
   return true;
 }
 
-void Map::setViewVelocity(sf::Vector2f velocity)
-{
+void Map::setViewVelocity(sf::Vector2f velocity) {
   this->viewVelocity.x = velocity.x;
   this->viewVelocity.y = velocity.y;
 }
 
-Character *Map::loadCharacterFromFile(YAML::Node node)
-{
-  if (node["isPlayer"].IsDefined() && node["isPlayer"].as<bool>() == true)
-  {
+Character *Map::loadCharacterFromFile(YAML::Node node) {
+  if (node["isPlayer"].IsDefined() && node["isPlayer"].as<bool>() == true) {
     // We create a Player object instead of a Character
     Player *player = new Player(node["Name"].as<std::string>(), true);
     player->loadSprite(node["sprites"].as<std::string>());
-    player->setPosition(sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
+    player->setPosition(
+        sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
     entities.push_back(player);
     return player;
   }
 
   Character *character = new Character(node["Name"].as<std::string>());
-  character->setPosition(sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
+  character->setPosition(
+      sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
   entities.push_back(character);
   return character;
 }
 
-Item *Map::loadItemFromFile(YAML::Node node)
-{
+Item *Map::loadItemFromFile(YAML::Node node) {
   Item *loadedItem = new Item(node["id"].as<int>());
   loadedItem->setName(node["Name"].as<std::string>());
-  loadedItem->setPosition(sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
+  loadedItem->setPosition(
+      sf::Vector2f(node["x"].as<float>(), node["y"].as<float>()));
   entities.push_back(loadedItem);
   return loadedItem;
 }
 
-void Map::_sortEntities()
-{
-  if (entities.size() < 2)
-  {
+void Map::_sortEntities() {
+  if (entities.size() < 2) {
     return;
   }
-  for (int i = 0; i < entities.size() - 1; i++)
-  {
+  for (int i = 0; i < entities.size() - 1; i++) {
     CollisionEntity *pt1 = entities.at(i);
-    for (int j = i + 1; j < entities.size(); j++)
-    {
+    for (int j = i + 1; j < entities.size(); j++) {
       CollisionEntity *pt2 = entities.at(j);
-      if (pt2->getPosition().y < pt1->getPosition().y)
-      {
+      if (pt2->getPosition().y < pt1->getPosition().y) {
         std::swap(entities[i], entities[j]);
       }
     }

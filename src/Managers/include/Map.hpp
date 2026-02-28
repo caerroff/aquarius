@@ -1,25 +1,24 @@
 #ifndef MAP
 #define MAP
-#include <SFML/Graphics.hpp>
-#include "../../UI/include/UI.hpp"
 #include "../../Collidables/include/Collidables.hpp"
-#include <yaml-cpp/yaml.h>
+#include "../../UI/include/UI.hpp"
 #include "Scene.hpp"
 #include "Tile.hpp"
-#include <vector>
+#include <SFML/Graphics.hpp>
 #include <iostream>
+#include <vector>
+#include <yaml-cpp/yaml.h>
 #define DEFAULT_MUSIC_PATH "assets/music/"
 #define DEFAULT_SPRITE_PATH "assets/sprites/"
 #define DEFAULT_TILES_PATH "assets/tiles/"
 #define DEFAULT_FONT_PATH "assets/font/PressStart2P-Regular.ttf"
 #define DEFAULT_MAP_PATH "assets/maps/"
 
-struct Flags{
+struct Flags {
   bool shouldSortEntities = false;
 };
 
-class Map
-{
+class Map {
 private:
   // Infos
   sf::Vector2f size;
@@ -27,7 +26,7 @@ private:
   sf::Color clearColor;
   const char *name;
   Map *nextMap;
-  
+
   // Camera and rendering utilities
   sf::Vector2f viewVelocity;
   sf::View *view;
@@ -41,14 +40,15 @@ private:
   std::vector<CollisionEntity *> entities;
 
   /**
-   * @brief Private method sorting the entities from smallest to highest y position
+   * @brief Private method sorting the entities from smallest to highest y
+   * position
    */
   void _sortEntities();
 
   // Misc
   std::array<bool, sf::Keyboard::KeyCount> keyState;
-  Player* player;
-  
+  Player *player;
+
 public:
   // Constructors
   Flags flags;
@@ -57,22 +57,24 @@ public:
 
   // Useful methods
   /**
-   * @brief updates the map and calls the update method of all objects it contains,
-   * including characters, player, items, tiles etc...
+   * @brief updates the map and calls the update method of all objects it
+   * contains, including characters, player, items, tiles etc...
    * @param window the window we want to render the map to.
    */
   void update(sf::RenderWindow *window);
 
   /**
    * @brief loads the Character OR Player from a YAML file using yaml-cpp
-   * @param node The node (yaml-cpp object) containing all informations about the player.
+   * @param node The node (yaml-cpp object) containing all informations about
+   * the player.
    * @return A pointer to the loaded Character or Player (polymorphism).
    */
   Character *loadCharacterFromFile(YAML::Node node);
 
   /**
    * @brief loads an Item from a YAML node using yaml-cpp
-   * @param node The node (yaml-cpp object) containing all informations about the item
+   * @param node The node (yaml-cpp object) containing all informations about
+   * the item
    * @return A pointer to the loaded Item object.
    */
   Item *loadItemFromFile(YAML::Node node);
@@ -110,13 +112,14 @@ public:
   void setPlayer(Player *player) { this->player = player; }
   void setViewVelocity(sf::Vector2f velocity);
 
-  Flags getFlags(){return this->flags;}
+  Flags getFlags() { return this->flags; }
 };
 
 /**
- * @brief loads a map from the specified file and passes it the window 
+ * @brief loads a map from the specified file and passes it the window
  * argument which the map will use as default rendering target.
- * @param path The path to the YAML file containing the map (can be relative or absolute)
+ * @param path The path to the YAML file containing the map (can be relative or
+ * absolute)
  * @param window A pointer to the window that will be given to the created Map
  * @return A pointer to the created Map object
  */

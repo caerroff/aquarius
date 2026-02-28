@@ -1,6 +1,8 @@
 #ifndef TILE
 #define TILE
+#include "AnimatedTexture.hpp"
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Clock.hpp>
 #include <yaml-cpp/yaml.h>
 #define DEFAULT_TILE_PATH "assets/tiles/tiles.png"
 
@@ -10,6 +12,9 @@ private:
   int id;
   sf::RectangleShape *shape;
   sf::Texture *texture;
+  bool isAnimated;
+  sf::Clock *clock = new sf::Clock();
+  AnimatedTexture textures;
 
 public:
   Tile();
@@ -23,6 +28,9 @@ public:
   int getId(){return id;}
 
   void updateTexture();
+  void updateAnimatedTexture();
+  void nextAnimatedTile();
+  void setIsAnimated(bool value) {this->isAnimated = value;}
 };
 
 Tile *loadTileFromFile(YAML::Node node);

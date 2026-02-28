@@ -18,7 +18,7 @@ int main(void)
     sf::Image *icon = new sf::Image();
     icon->loadFromFile("assets/icon.png");
 
-    window->setFramerateLimit(60);
+    window->setFramerateLimit(120);
     window->setVerticalSyncEnabled(true);
     window->setMouseCursorVisible(false);
     window->setKeyRepeatEnabled(true);
@@ -44,7 +44,7 @@ int main(void)
         else
         {
             std::cout << SceneManager::getSceneManager().getCurrentMode() << std::endl;
-            fprintf(stderr, "Warning ! Thrown to GameplayMode because no mode was set\n");
+            std::cerr << "Warning ! Thrown to GameplayMode because no mode was set" << std::endl;
             GameplayManager::getGameplayManager().setModeGameplay(window);
             GameplayManager::getGameplayManager().update(window);
         }
